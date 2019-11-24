@@ -1,0 +1,205 @@
+﻿<html>
+<head>
+    <title>Place ID Finder</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border-style: solid;
+            border-width: 2px;
+            border-color: black;
+        }
+
+        #description {
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #f7a8b8;
+            font-family: Roboto;
+        }
+
+        #pac-container {
+            padding-bottom: 12px;
+            margin-right: 12px;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+            .pac-controls label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            width: 400px;
+        }
+
+            #pac-input:focus {
+                border-color: #55cdfc;
+            }
+
+        #title {
+            color: #fff;
+            background-color: #55cdfc;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        #border-style {
+            color: black;
+            height: 5px;
+            width: 5px;
+        }
+
+        #place-id {
+            opacity: 0;
+            color: white;
+            font-size: .1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pac-card" id="pac-card">
+        <div>
+            <div id="title">
+                Where did you go?
+            </div>
+            <div id="type-selector" class="pac-controls"></div>
+        </div>
+
+        <div id="pac-container">
+            <input id="pac-input" type="text"
+                   placeholder="Search...">
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <!--    <div id="infowindow-content">-->
+    <!--        <img src="" width="16" height="16" id="place-icon">-->
+    <!--        <span id="place-name" class="title"></span><br>-->
+    <!--        <span id="place-address"></span>-->
+    <!--    </div>-->
+
+
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon">
+        <span id="place-name" class="title"></span><br>
+        <span id="place-id"></span><br>
+        <span id="place-address"></span>
+    </div>
+
+    <script type="text/javascript">
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: 55.9411885, lng: -3.2159829 },
+                    zoom: 12,
+                    mapTypeControl: false,
+                    streetViewControl: true,
+                    zoomControl: true,
+                    scaleControl: true,
+                    fullscreenControl: true,
+                });
+            window.parent.postMessage("please");
+
+            var card = document.getElementById('pac-card');
+            var input = document.getElementById('pac-input');
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+            var infowindow = new google.maps.InfoWindow();
+            var infowindowContent = document.getElementById('infowindow-content');
+            infowindow.setContent(infowindowContent);
+            var marker = new google.maps.Marker({
+                map: map
+            });
+            marker.addListener('click',
+                function() {
+                    infowindow.open(map, marker);
+                });
+
+            autocomplete.addListener('place_changed',
+                function() {
+                    infowindow.close();
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        return;
+                    }
+
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+
+                    // Set the position of the marker using the place ID and location.
+                    marker.setPlace({
+                        placeId: place.place_id,
+                        location: place.geometry.location
+                    });
+                    marker.setVisible(true);
+
+                    infowindowContent.children['place-icon'].src = place.icon;
+                    infowindowContent.children['place-name'].textContent = place.name;
+                    infowindowContent.children['place-address'].textContent =
+                        place.formatted_address;
+                    infowindowContent.children['place-id'].textContent = place.place_id;
+
+                    infowindow.open(map, marker);
+                    window.parent.postMessage(`${place.name};${place.formatted_address};${place.place_id}`, "*");
+
+        });
+    }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI2pfi1fWfKOT77MXksAWtkF2WemtYrI4&libraries=places&callback=initMap"
+            async defer></script>
+</body>
+</html>
