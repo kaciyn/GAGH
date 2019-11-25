@@ -87,3 +87,9 @@ body,
     height: 201px;
     object-fit: cover;
 }
+
+.largeTitle {
+    text-align: center;
+    font-size: 70px;
+    font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,475 +1,153 @@
 ﻿{%extends 'base.html'%}
 {% content %}
 <div class="row">
-    <div class="col-md-6">
-        <h3 class="h3" id="content-heading">Add a Review</h3>
+    <form action="/submit/submit-review" method="POST">
 
-        <div class="row">
-            <div class="container">
+        <div class="col-md-6">
+            <h3 class="h3" id="content-heading">Add a Review</h3>
 
-
-                <title>Place ID Finder</title>
-                <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-                <meta charset="utf-8">
-                <style>
-                    /* Always set the map height explicitly to define the size of the div
-                                    * element that contains the map. */
-                    #map {
-                        height: 100%;
-                    }
-                    /* Optional: Makes the sample page fill the window. */
-                    html, body {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                        /*border: 2px solid black;*/
-                    }
-
-                    #description {
-                        font-family: Roboto;
-                        font-size: 5vw;
-                        font-weight: 300;
-                    }
-
-                    #infowindow-content .title {
-                        font-weight: bold;
-                    }
-
-                    #infowindow-content {
-                        display: none;
-                    }
-
-                    #map #infowindow-content {
-                        display: inline;
-                    }
-
-                    .pac-card {
-                        margin: 2vw 2vh 0 0;
-                        border-radius: 2vw 0 0 2vw;
-                        box-sizing: border-box;
-                        -moz-box-sizing: border-box;
-                        outline: none;
-                        box-shadow: 0 .5vw .8vh rgba(0, 0, 0, 0.3);
-                        background-color: #f7a8b8;
-                        font-family: Roboto;
-                    }
-
-                    #pac-container {
-                        padding-bottom: 2vw;
-                        margin-right: 3vw;
-                    }
-
-                    .pac-controls {
-                        display: inline-block;
-                        padding: 1vw 2vh;
-                    }
-
-                        .pac-controls label {
-                            font-family: Roboto;
-                            font-size: 4vw;
-                            font-weight: 300;
-                        }
-
-                    #pac-input {
-                        background-color: #fff;
-                        font-family: Roboto;
-                        font-size: 3vw;
-                        font-weight: 300;
-                        margin-left: 2vw;
-                        padding: 0 1vw 0 1vh;
-                        text-overflow: ellipsis;
-                        width: 75vw;
-                        height: 4vh;
-                    }
-
-                        #pac-input:focus {
-                            border-color: #55cdfc;
-                        }
-
-                    #title {
-                        color: #fff;
-                        background-color: #55cdfc;
-                        font-size: 4vh;
-                        font-weight: 500;
-                        padding: .8vw 1.6vh;
-                    }
+            <div class="row">
+                <div class="container" id="map-container">
 
 
-
-                    #place-id {
-                        opacity: 0;
-                        color: white;
-                        font-size: .1px;
-                    }
-                </style>
-                </head>
-                <body>
-
-                    <div class="pac-card" id="pac-card">
-                        <div>
-                            <div id="title">
-                                Where did you go?
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="container">
+                    <div class="form-group">
+                        <h4 class="h4" id="content-heading">
+                            <span style="font-family:open sans,sans-serif;">barbershop id </span>
+                        </h4>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <input class="form-control" type="text" placeholder="barbershop id..." id="barbershop_id">
                             </div>
-                            <div id="type-selector" class="pac-controls"></div>
                         </div>
 
-                        <div id="pac-container">
-                            <input id="pac-input" type="text"
-                                   placeholder="Search...">
+
+                        <h4 class="h4" id="content-heading">
+                            <span style="font-family:open sans,sans-serif;">Email </span>
+                        </h4>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <input class="form-control" type="text" placeholder="Please enter your email..." id="email">
+                            </div>
+                        </div>
+
+
+                        <h4 class="h4" id="content-heading">
+                            <span style="font-family:open sans,sans-serif;">When did you go? </span>
+                        </h4>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <input class="form-control" type="date" id="date_visited">
+                            </div>
+                        </div>
+
+                        <h4 class="h4" id="content-heading">
+                            <span style="font-family:open sans,sans-serif;">How was it? </span>
+                        </h4>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <input class="form-control" type="text" placeholder="Add a review title..." id="review_title">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <textarea class="form-control" type="text" rows="5" placeholder="Write a review..." id="review_text"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div id="map"></div>
-
-                    <!--    <div id="infowindow-content">-->
-                    <!--        <img src="" width="16" height="16" id="place-icon">-->
-                    <!--        <span id="place-name" class="title"></span><br>-->
-                    <!--        <span id="place-address"></span>-->
-                    <!--    </div>-->
 
 
-                    <div id="infowindow-content">
-                        <img src="" width="16" height="16" id="place-icon">
-                        <span id="place-name" class="title"></span><br>
-                        <span id="place-id"></span><br>
-                        <span id="place-address"></span>
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-4 control-label">Haircut Quality</label>
+
+                        <fieldset class="rating" id="haircut_quality">
+                            <input type="radio" id="rating-5" name="rating-haircut-quality" value="5" /><label class="full" for="star5" title="This is the Best I've Ever Looked"></label>
+                            <input type="radio" id="rating-4" name="rating-haircut-quality" value="4" /><label class="full" for="star4" title="I look good!"></label>
+                            <input type="radio" id="rating-3" name="rating-haircut-quality" value="3" /><label class="full" for="star3" title="Pretty okay"></label>
+                            <input type="radio" id="rating-2" name="rating-haircut-quality" value="2" /><label class="full" for="star2" title="Meh"></label>
+                            <input type="radio" id="rating-1" name="rating-haircut-quality" value="1" /><label class="full" for="star1" title="I can't look in a mirror"></label>
+                        </fieldset>
                     </div>
 
-                    <script type="text/javascript">
-function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'),
-            {
-                center: { lat: 55.9411885, lng: -3.2159829 },
-                zoom: 12,
-                mapTypeControl: false,
-                streetViewControl: true,
-                zoomControl: true,
-                scaleControl: true,
-                fullscreenControl: true,
-                styles:[
-                    {
-                        "featureType": "administrative",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                            {
-                                "color": "#444444"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "landscape",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "color": "#f2f2f2"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "poi",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "saturation": -100
-                            },
-                            {
-                                "lightness": 45
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "simplified"
-                            },
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "visibility": "on"
-                            },
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "labels",
-                        "stylers": [
-                            {
-                                "visibility": "on"
-                            },
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.highway",
-                        "elementType": "labels.text",
-                        "stylers": [
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.arterial",
-                        "elementType": "labels.icon",
-                        "stylers": [
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.local",
-                        "elementType": "geometry.fill",
-                        "stylers": [
-                            {
-                                "color": "#f7a8b8"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.local",
-                        "elementType": "labels.text.fill",
-                        "stylers": [
-                            {
-                                "color": "#ffffff"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "road.local",
-                        "elementType": "labels.text.stroke",
-                        "stylers": [
-                            {
-                                "color": "#000000"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "transit",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "visibility": "off"
-                            }
-                        ]
-                    },
-                    {
-                        "featureType": "water",
-                        "elementType": "all",
-                        "stylers": [
-                            {
-                                "color": "#b3ebff"
-                            },
-                            {
-                                "visibility": "on"
-                            }
-                        ]
-                    }
-                ]
-            });
-        window.parent.postMessage("please");
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-4 control-label">Anxiety Rating</label>
 
-        var card = document.getElementById('pac-card');
-        var input = document.getElementById('pac-input');
+                        <fieldset class="rating" id="anxiety">
+                            <input type="radio" id="rating-5" name="rating-anxiety" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
+                            <input type="radio" id="rating-4" name="rating-anxiety" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
+                            <input type="radio" id="rating-3" name="rating-anxiety" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
+                            <input type="radio" id="rating-2" name="rating-anxiety" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
+                            <input type="radio" id="rating-1" name="rating-anxiety" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
+                        </fieldset>
+                    </div>
 
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.bindTo('bounds', map);
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-4 control-label">Friendliness</label>
 
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+                        <fieldset class="rating" id="friendliness">
+                            <input type="radio" id="rating-5" name="rating-friendliness" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
+                            <input type="radio" id="rating-4" name="rating-friendliness" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
+                            <input type="radio" id="rating-3" name="rating-friendliness" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
+                            <input type="radio" id="rating-2" name="rating-friendliness" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
+                            <input type="radio" id="rating-1" name="rating-friendliness" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
+                        </fieldset>
 
-        var infowindow = new google.maps.InfoWindow();
-        var infowindowContent = document.getElementById('infowindow-content');
-        infowindow.setContent(infowindowContent);
-        var marker = new google.maps.Marker({
-            map: map
-        });
-        marker.addListener('click',
-            function() {
-                infowindow.open(map, marker);
-            });
+                    </div>
 
-        autocomplete.addListener('place_changed',
-            function() {
-                infowindow.close();
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    return;
-                }
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-4 control-label">Price</label>
 
-                if (place.geometry.viewport) {
-                    map.fitBounds(place.geometry.viewport);
-                } else {
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(17);
-                }
+                        <fieldset class="rating" id="price">
+                            <input type="radio" id="rating-3" name="rating-price" value="3" /><label class="full" for="rating-3" title="£30<"></label>
+                            <input type="radio" id="rating-2" name="rating-price" value="2" /><label class="full" for="rating-2" title="£15-£29"></label>
+                            <input type="radio" id="rating-1" name="rating-price" value="1" /><label class="full" for="rating-1" title="£15>"></label>
+                        </fieldset>
 
-                // Set the position of the marker using the place ID and location.
-                marker.setPlace({
-                    placeId: place.place_id,
-                    location: place.geometry.location
-                });
-                marker.setVisible(true);
-
-                infowindowContent.children['place-icon'].src = place.icon;
-                infowindowContent.children['place-name'].textContent = place.name;
-                infowindowContent.children['place-address'].textContent =
-                    place.formatted_address;
-                infowindowContent.children['place-id'].textContent = place.place_id;
-
-                infowindow.open(map, marker);
-                window.parent.postMessage(`${place.name};${place.formatted_address};${place.place_id}`, "*");
-
-            });
-    }</script>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI2pfi1fWfKOT77MXksAWtkF2WemtYrI4&libraries=places&callback=initMap"
-                            async defer></script>
+                    </div>
 
 
+                    <div class="form-group">
+                        <!--<h4 class="h4" id="content-heading">
+                            <span style="font-family:open sans,sans-serif;">Who was your barber&#63 (Optional)</span>
+                        </h4>
+                        <div class="form-group row">
+                            <div class="col-10">
+                                <input class="form-control" type="text" placeholder="Add barber's name..." id="barber-name">
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <label for="inputType" class="col-sm-6 control-label">Would you recommend them&#63 </label>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="barber-recommend">
+                        </div>-->
+
+                        <div class="form-group row">
+                            <label for="inputType" class="col-sm-6 control-label">Were there any Gender Comments™ </label>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="gender_remarks">
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputType" class="col-sm-6 control-label">Were you charged more than their standard rate</label>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="No" data-off="Yes" data-onstyle="success" data-offstyle="danger" id="gender_charged">
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputType" class="col-sm-6 control-label">Unsafe, avoid at all costs </label>
+                            <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="unsafe">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" value="submit">Submit Review </button>
+
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="container">
-            <form>
-                <div class="form-group">
-                    <h4 class="h4" id="content-heading">
-                        <span style="font-family:open sans,sans-serif;">When did you go? </span>
-                    </h4>
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <input class="form-control" type="date" id="date-visited">
-                        </div>
-                    </div>
+    </form>
 
-                    <h4 class="h4" id="content-heading">
-                        <span style="font-family:open sans,sans-serif;">How was it? </span>
-                    </h4>
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <input class="form-control" type="text" placeholder="Add a review title..." id="review-title">
-                        </div>
-                    </div>
-
-
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <textarea class="form-control" type="text" rows="5" placeholder="Write a review..." id="review"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="form-group row">
-                    <label for="inputType" class="col-sm-4 control-label">Haircut Quality</label>
-
-                    <fieldset class="rating" id="haircut-quality">
-                        <input type="radio" id="rating-5" name="rating-haircut-quality" value="5" /><label class="full" for="star5" title="This is the Best I've Ever Looked"></label>
-                        <input type="radio" id="rating-4" name="rating-haircut-quality" value="4" /><label class="full" for="star4" title="I look good!"></label>
-                        <input type="radio" id="rating-3" name="rating-haircut-quality" value="3" /><label class="full" for="star3" title="Pretty okay"></label>
-                        <input type="radio" id="rating-2" name="rating-haircut-quality" value="2" /><label class="full" for="star2" title="Meh"></label>
-                        <input type="radio" id="rating-1" name="rating-haircut-quality" value="1" /><label class="full" for="star1" title="I can't look in a mirror"></label>
-                    </fieldset>
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputType" class="col-sm-4 control-label">Anxiety Rating</label>
-
-                    <fieldset class="rating" id="anxiety">
-                        <input type="radio" id="rating-5" name="rating-anxiety" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
-                        <input type="radio" id="rating-4" name="rating-anxiety" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
-                        <input type="radio" id="rating-3" name="rating-anxiety" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
-                        <input type="radio" id="rating-2" name="rating-anxiety" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
-                        <input type="radio" id="rating-1" name="rating-anxiety" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
-                    </fieldset>
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputType" class="col-sm-4 control-label">Friendliness</label>
-
-                    <fieldset class="rating" id="friendliness">
-                        <input type="radio" id="rating-5" name="rating-friendliness" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
-                        <input type="radio" id="rating-4" name="rating-friendliness" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
-                        <input type="radio" id="rating-3" name="rating-friendliness" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
-                        <input type="radio" id="rating-2" name="rating-friendliness" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
-                        <input type="radio" id="rating-1" name="rating-friendliness" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
-                    </fieldset>
-
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputType" class="col-sm-4 control-label">Price</label>
-
-                    <fieldset class="rating" id="price">
-                        <input type="radio" id="rating-3" name="rating-price" value="3" /><label class="full" for="rating-3" title="£30<"></label>
-                        <input type="radio" id="rating-2" name="rating-price" value="2" /><label class="full" for="rating-2" title="£15-£29"></label>
-                        <input type="radio" id="rating-1" name="rating-price" value="1" /><label class="full" for="rating-1" title="£15>"></label>
-                    </fieldset>
-
-                </div>
-
-
-                <div class="form-group">
-                    <h4 class="h4" id="content-heading">
-                        <span style="font-family:open sans,sans-serif;">Who was your barber&#63 (Optional)</span>
-                    </h4>
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <input class="form-control" type="text" placeholder="Add barber's name..." id="barber-name">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="inputType" class="col-sm-6 control-label">Would you recommend them&#63 </label>
-                        <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="barber-recommend">
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="inputType" class="col-sm-6 control-label">Were there any Gender Comments™ </label>
-                        <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="gender-comments">
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="inputType" class="col-sm-6 control-label">Unsafe, avoid at all costs </label>
-                        <input type="checkbox" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" id="unsafe">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit Review</button>
-
-            </form>
-        </div>
-    </div>
 </div>
 {%endblock%}}

@@ -26,12 +26,12 @@ def submit_review():
         date_added = request.form['date_added']
         title = request.form['title']
         review_text = request.form['review_text']
-        haircut_rating = request.form['haircut_rating']
-        anxiety_rating = request.form['anxiety_rating']
-        friendliness_rating = request.form['friendliness_rating']
-        pricerange = request.form['pricerange']
-        barber_id = request.form['barber_id']
-        barber_recommended = request.form['barber_recommended']
+        haircut_rating = request.form['haircut_quality']
+        anxiety_rating = request.form['anxiety']
+        friendliness_rating = request.form['friendliness']
+        pricerange = request.form['price']
+        # barber_id = request.form['barber_id']
+        # barber_recommended = request.form['barber_recommended']
         gender_remarks = request.form['gender_remarks']
         gender_charged = request.form['gender_charged']
         unsafe = request.form['unsafe']
@@ -39,8 +39,8 @@ def submit_review():
        
         with sql.connect("database.db") as con: cur = con.cursor()
         cur.execute("INSERT INTO Review
-        (reviewer_id,barbershop_id,barber_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,barber_recommended,gender_remarks,gender_charged,unsafe
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,barber_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,barber_recommended,gender_remarks,gender_charged,unsafe) )
+        (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
             
             con.commit()
             msg = "Record successfully added"
