@@ -7,22 +7,8 @@ app=Flask(__name__)
 db_location='var/GAGH.db'
 
 @app.route('/')
-def root)():
+def root():
 	return render_template('base.html'),200
-
-def get_db():
-		db=getattr(g,'db',None
-		if db is None:
-			db=sqlite3.connect(db_location)
-			g.db=db
-		return db)
-
-@app.teardown_appcontext
-def close_db_connection(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.close()
-
 
 @app.route("/submit/")
 def new_review():
@@ -44,7 +30,7 @@ def submit_review():
         anxiety_rating = request.form['anxiety_rating']
         friendliness_rating = request.form['friendliness_rating']
         pricerange = request.form['pricerange']
-                barber_id = request.form['barber_id']
+        barber_id = request.form['barber_id']
         barber_recommended = request.form['barber_recommended']
         gender_remarks = request.form['gender_remarks']
         gender_charged = request.form['gender_charged']
