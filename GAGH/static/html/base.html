@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static',filename='css/map.css')}}" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='js/scripts.js')}}"></script>
+    <script src="{{url_for('static',filename='js/map.js')}}"></script>
+
+
+</head>
+<body>
+    <div class="grid-container target">
+
+        <div class="Header">
+            <div class="Navigation" contenteditable="false">
+
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Menu <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a href="/home/" class="">Home</a>
+                        <a href="/submit/" class="">Submit</a>
+                        <a href="/barbershops/" class="">Barbershops</a>
+                        <a href="/reviews/" class="">Reviews</a>
+                        <a href="/faq/" class="">Terminology/Advice</a>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="Search"></div>
+            <div class="Title">
+
+
+                <div class="panel panel-default">
+                    <h1 class="htitle">
+                        <!--    <img class="poleL" id="barberPole" alt="Barber's pole in the trans flag colours" data-type="image" itemprop="image" src="https://static.wixstatic.com/media/e44c04_6795273f9d5c41e48d633ee64a28bcd8~mv2.png/v1/crop/x_145,y_98,w_238,h_854/fill/w_56,h_201,al_c,q_85,usm_0.66_1.00_0.01/transBarber.webp">-->
+
+                        <div class="titleBorder">
+                            <a href="/home/" target="_self" style="text-decoration: none">
+
+                                <span class="title">  Get <br>A Goddamn  <br>Haircut</span>
+                            </a>
+
+                        </div>
+
+                    </h1>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="Content">
+            <div class="container">
+
+                {% content %} {%endblock %}
+
+            </div>
+        </div>
+    </div>
+    <div class="Footer"></div>
+    <div class="LMargin" contenteditable="false"></div>
+    <div class="RMargin"></div>
+
+
+</body>
+</html>
