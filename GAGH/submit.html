@@ -9,28 +9,29 @@
 
         <div class="Header">
             <div class="Navigation" contenteditable="false">
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Menu<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" class="">Choice1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="">Choice2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="">Choice3</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#" class="">Choice..</a>
-                        </li>
-                    </ul>
+
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Menu <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a href="/home/" class="">Home</a>
+                        <a href="/submit/" class="">Submit</a>
+                        <a href="/barbershops/" class="">Barbershops</a>
+                        <a href="/reviews/" class="">Reviews</a>
+                        <a href="/faq/" class="">Terminology/Advice</a>
+
+                    </div>
                 </div>
+
             </div>
             <div class="Search"></div>
             <div class="Title">
-                <h1 style="font-size:33px; text-align:center; line-height:1.2em;" class=""><a href="https://kaciyanova.wixsite.com/gagh" target="_self" class=""><span style="font-size:33px;" class=""><span style="letter-spacing:0.3em;" class=""><span style="font-weight:bold;" class="" contenteditable="false">Get A</span></span><span style="letter-spacing:0.3em;" class=""><span style="font-weight:bold;" class="" contenteditable="false"> <br>Goddamn<br>&nbsp;Haircut</span></span></span></a></h1>
+                <h1 class="title">
+                    <a href="/home/" target="_self" style="text-decoration: none">
+                        <span class="title">  Get <br>A Goddamn  <br>Haircut</span>
+                    </a>
+                </h1>
             </div>
         </div>
         <div class="Content">
@@ -41,7 +42,41 @@
 
                         <div class="row">
                             <div class="container">
-                                <h3 class="h3" id="content-heading">Map Goes here</h3>
+
+                                <!--gmap-->
+                                <div class="pac-card" id="pac-card">
+                                    <div>
+                                        <div id="title">
+                                            Where did you go?
+                                        </div>
+                                        <div id="type-selector" class="pac-controls"></div>
+                                    </div>
+
+                                    <div id="pac-container">
+                                        <input id="pac-input" type="text"
+                                               placeholder="Search...">
+                                    </div>
+                                </div>
+                                <div id="map"></div>
+
+                                <!--    <div id="infowindow-content">-->
+                                <!--        <img src="" width="16" height="16" id="place-icon">-->
+                                <!--        <span id="place-name" class="title"></span><br>-->
+                                <!--        <span id="place-address"></span>-->
+                                <!--    </div>-->
+
+
+                                <div id="infowindow-content">
+                                    <img src="" width="16" height="16" id="place-icon">
+                                    <span id="place-name" class="title"></span><br>
+                                    <span id="place-id"></span><br>
+                                    <span id="place-address"></span>
+                                </div>
+
+
+                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI2pfi1fWfKOT77MXksAWtkF2WemtYrI4&libraries=places&callback=initMap"
+                                        async defer></script>
+
                             </div>
                         </div>
                     </div>

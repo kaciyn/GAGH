@@ -316,6 +316,9 @@
     <None Include="submit.html" />
     <None Include="js\scripts.js" />
     <None Include="css\styles.css" />
+    <None Include="map.html" />
+    <None Include="css\map.css" />
+    <None Include="js\map.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
