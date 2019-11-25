@@ -1,10 +1,11 @@
 from flask import Flask, g,render_template
 
-import sqlite3
+import sqlite3,ConfigParser
 
 app=Flask(__name__)
 
 db_location='var/GAGH.db'
+html_location='static/html/'
 
 @app.route('/')
 def root():
@@ -19,8 +20,7 @@ def new_review():
 def submit_review():
    if request.method == 'POST':
       try:
- 		reviewer_id = request.form['email']
-
+    	reviewer_id = request.form['email']
         barbershop_id = request.form['barbershop_id']
         date_visited = request.form['date_visited']
         date_added = request.form['date_added']
@@ -37,10 +37,9 @@ def submit_review():
         unsafe = request.form['unsafe']
 
        
-        with sql.connect("database.db") as con: cur = con.cursor()
-        cur.execute("INSERT INTO Review
-        (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+        with sql.connect("database.db") as con:
+            cur = con.cursor()
+            cur.execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
             
             con.commit()
             msg = "Record successfully added"
@@ -53,25 +52,9 @@ def submit_review():
          con.close()
 
 
-@app.route("/submit-review")
-def new_review():
-    db = get_db()
-    db.cursor().execute('insert into albums values ("American Beauty", "Grateful Dead", "CD")')
-    db.commit()
-
-    page = []
-    page.append('<html><ul>')
-    sql = "SELECT rowid, * FROM albums ORDER BY artist"
-    for row in db.cursor().execute(sql):
-        page.append('<li>')
-        page.append(str(row))
-        page.append('</li>')
-
-    page.append('</ul><html>')
-    return ''.join(page)
 
 
-    @app.route('/config/')
+@app.route('/config/')
 def config():
     strg = []
     strg.append('Debug: %s' % app.config['DEBUG'])
