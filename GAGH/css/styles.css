@@ -1,9 +1,15 @@
-﻿
-a.grid-container {
+﻿html,
+body,
+.grid-container {
+    height: 100%;
+}
+
+.grid-container {
     display: grid;
-    grid-template-columns: 0.3fr 1fr 1fr 0.3fr;
-    grid-template-rows: 0.25fr 1fr 0.1fr;
-    grid-template-areas: "LMargin Header Header RMargin" "LMargin Content Content RMargin" "LMargin Footer Footer RMargin";
+    grid-template-columns: 0.3fr 1fr 0.3fr;
+    grid-template-rows: 0.1fr 0.25fr 1fr 0.1fr;
+    grid-template-areas: "Top-Padding Top-Padding Top-Padding" "Header Header Header" "LPadding Content RPadding" "Footer Footer Footer";
+    grid-gap: 1.5em;
 }
 
 .Content {
@@ -12,7 +18,7 @@ a.grid-container {
 
 .Header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 0.7fr 1fr 0.7fr;
     grid-template-rows: 1fr;
     grid-template-areas: "Navigation Title Search";
     grid-area: Header;
@@ -22,24 +28,28 @@ a.grid-container {
     grid-area: Navigation;
 }
 
+.Title {
+    grid-area: Title;
+}
+
 .Search {
     grid-area: Search;
 }
 
-.Title {
-    grid-area: Title;
+.Top-Padding {
+    grid-area: Top-Padding;
 }
 
 .Footer {
     grid-area: Footer;
 }
 
-.LMargin {
-    grid-area: LMargin;
+.LPadding {
+    grid-area: LPadding;
 }
 
-.RMargin {
-    grid-area: RMargin;
+.RPadding {
+    grid-area: RPadding;
 }
 
 .title {
@@ -49,4 +59,31 @@ a.grid-container {
     font-weight: bold;
     letter-spacing: 0.3em;
     color: black;
+    text-decoration: none;
+}
+
+.htitle {
+    text-align: center;
+    font-weight: bold;
+    width: 400px;
+    position: center
+}
+
+.titleBorder {
+    border-color: black;
+    border-style: solid;
+    /*border-top-style: solid;
+    border-bottom-style: solid;*/
+    border-width: 5px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.poleL {
+    position: fixed;
+    top: 0em;
+    left: 12em;
+    width: 56px;
+    height: 201px;
+    object-fit: cover;
 }
