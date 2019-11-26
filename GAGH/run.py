@@ -10,7 +10,7 @@ html_location='static/html/'
 def get_db():
     db = getattr(g, 'db', None)
     if db is None:
-        db = sqlite3.connect(db_location)
+        db = sql.connect(db_location)
         g.db = db
     return db
 
@@ -32,6 +32,7 @@ def new_review():
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
     msg=''
+    db = get_db()
     if request.method == 'POST':
       try:
     	reviewer_id = request.form['email']
@@ -50,35 +51,30 @@ def submit_review():
         gender_charged = request.form['gender_charged']
         unsafe = request.form['unsafe']
 
-       
-        db = get_db()
-
         db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
         db.commit()
         msg = "Record successfully added"
       except:
-        con.rollback()
+        db.rollback()
         msg = "error in insert operation"
       
       finally:
-        return render_template("list.html",msg = msg)
-        con.close()
+          list(msg)
 
-
-@app.route('/list')
-def list():
+def list(msg):
     db = get_db()
 
     page = []
     page.append('<html><ul>')
-    sql = "SELECT rowid, * FROM Review ORDER BY barbershop_id"
+    sql = "SELECT * FROM Review ORDER BY barbershop_id"
     for row in db.cursor().execute(sql):
         page.append('<li>')
         page.append(str(row))
         page.append('</li>')
-
-    page.append('</ul><html>')
+        page.append(msg)
+        page.append('</ul><html>')
     return ''.join(page)
+
 
 @app.route('/config/')
 def config():
