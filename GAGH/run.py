@@ -31,24 +31,24 @@ def new_review():
 @app.route('/test/')
 def test():
     try:
-        reviewer_id = 'ksdjhf'
-        barbershop_id = 'lsdkfjlksdjf'
-        date_visited = 58937
-        date_added = 2340598
-        title = 'aaaaaa'
-        review_text = 'sdfgsdfgsdfgdsfgsdfg'
-        haircut_rating = 5
-        anxiety_rating = 3
-        friendliness_rating = 1
-        pricerange = 2
-     
-        gender_remarks = 1
-        gender_charged = 1
-        unsafe = 0
+    reviewer_id = 'ksdjhf'
+    barbershop_id = 'lsdkfjlksdjf'
+    date_visited = 58937
+    date_added = 2340598
+    title = 'aaaaaa'
+    review_text = 'sdfgsdfgsdfgdsfgsdfg'
+    haircut_rating = 5
+    anxiety_rating = 3
+    friendliness_rating = 1
+    pricerange = 2
+ 
+    gender_remarks = 1
+    gender_charged = 1
+    unsafe = 0
 
-        db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
-        db.commit()
-        msg = "Record successfully added"
+    db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+    db.commit()
+    msg = "Record successfully added"
     except:
         db.rollback()
         msg = "error in insert operation"
@@ -62,31 +62,31 @@ def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-    	reviewer_id = request.form['email']
-        barbershop_id = request.form['barbershop_id']
-        date_visited = request.form['date_visited']
-        date_added = request.form['date_added']
-        title = request.form['title']
-        review_text = request.form['review_text']
-        haircut_rating = request.form['haircut_quality']
-        anxiety_rating = request.form['anxiety']
-        friendliness_rating = request.form['friendliness']
-        pricerange = request.form['price']
-        # barber_id = request.form['barber_id']
-        # barber_recommended = request.form['barber_recommended']
-        gender_remarks = request.form['gender_remarks']
-        gender_charged = request.form['gender_charged']
-        unsafe = request.form['unsafe']
+        	reviewer_id = request.form['email']
+            barbershop_id = request.form['barbershop_id']
+            date_visited = request.form['date_visited']
+            date_added = request.form['date_added']
+            title = request.form['title']
+            review_text = request.form['review_text']
+            haircut_rating = request.form['haircut_quality']
+            anxiety_rating = request.form['anxiety']
+            friendliness_rating = request.form['friendliness']
+            pricerange = request.form['price']
+            # barber_id = request.form['barber_id']
+            # barber_recommended = request.form['barber_recommended']
+            gender_remarks = request.form['gender_remarks']
+            gender_charged = request.form['gender_charged']
+            unsafe = request.form['unsafe']
 
-        db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
-        db.commit()
-        msg = "Record successfully added"
-      except:
-        db.rollback()
-        msg = "error in insert operation"
+            db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+            db.commit()
+            msg = "Record successfully added"
+        except:
+            db.rollback()
+            msg = "error in insert operation"
       
-      finally:
-          list(msg)
+        finally:
+            list(msg)
 
 def list(msg):
     db = get_db()
