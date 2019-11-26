@@ -75,8 +75,7 @@ def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-            reviewer_id = 'lsdkjf'
-            #reviewer_id = request.form['reviewer_id']
+            reviewer_id = request.form.get('reviewer_id')
             barbershop_id = request.form['barbershop_id']
             date_visited = request.form['date_visited']
             date_added = request.form['date_added']
