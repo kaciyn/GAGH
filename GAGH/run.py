@@ -95,11 +95,11 @@ def list(msg):
 
     page = []
     page.append('<html><ul>')
-    sql = "SELECT * FROM Review ORDER BY barbershop_id"
-    for row in db.cursor().execute(sql):
-        page.append('<li>')
-        page.append(str(row))
-        page.append('</li>')
+    # sql = "SELECT * FROM Review ORDER BY barbershop_id"
+    # for row in db.cursor().execute(sql):
+    #     page.append('<li>')
+    #     page.append(str(row))
+    #     page.append('</li>')
         page.append(msg)
         page.append('</ul><html>')
     return ''.join(page)
