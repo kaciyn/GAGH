@@ -47,21 +47,21 @@ def test():
     unsafe = 0
 
     db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
-        db.commit()
-        msg = "Record successfully added"
-      except:
-        db.rollback()
-        msg = "error in insert operation"
+    db.commit()
+    msg = "Record successfully added"
+    except:
+    db.rollback()
+    msg = "error in insert operation"
       
-      finally:
-          list(msg)
+    finally:
+        list(msg)
 
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
     msg=''
     db = get_db()
     if request.method == 'POST':
-      try:
+        try:
     	reviewer_id = request.form['email']
         barbershop_id = request.form['barbershop_id']
         date_visited = request.form['date_visited']
