@@ -1,6 +1,6 @@
-from flask import Flask, g,render_template
+from flask import Flask, g,render_template,request
 
-import sqlite3,ConfigParser
+import sqlite3 as sql,ConfigParser
 
 app=Flask(__name__)
 
@@ -18,7 +18,8 @@ def new_review():
 
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
-   if request.method == 'POST':
+    msg='default msg'
+    if request.method == 'POST':
       try:
     	reviewer_id = request.form['email']
         barbershop_id = request.form['barbershop_id']
@@ -52,6 +53,16 @@ def submit_review():
          con.close()
 
 
+@app.route('/list')
+def list():
+   con = sql.connect("GAGH.db")
+   con.row_factory = sql.Row
+   
+   cur = con.cursor()
+   cur.execute("select * from review")
+   
+   rows = cur.fetchall();
+   return render_template("list.html",rows = rows)
 
 
 @app.route('/config/')
