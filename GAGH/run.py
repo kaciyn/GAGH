@@ -30,6 +30,8 @@ def new_review():
 
 @app.route('/test/')
 def test():
+    db=get_db();
+    msg='empty msg'
     try:
         reviewer_id = 'ksdjhf'
         barbershop_id = 'lsdkfjlksdjf'
@@ -62,7 +64,7 @@ def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-        	reviewer_id = request.form['email']
+            reviewer_id = request.form['email']
             barbershop_id = request.form['barbershop_id']
             date_visited = request.form['date_visited']
             date_added = request.form['date_added']
