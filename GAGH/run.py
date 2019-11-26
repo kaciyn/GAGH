@@ -80,11 +80,6 @@ def list():
     page.append('</ul><html>')
     return ''.join(page)
 
-
-@app.route('/shit')
-def shit():
-   
-
 @app.route('/config/')
 def config():
     strg = []
@@ -107,7 +102,6 @@ def init(app):
 
     except:
         print "Could not read configs from: ", config_location
-
 
 init(app)
 
