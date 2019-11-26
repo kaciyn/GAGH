@@ -48,15 +48,26 @@ def test():
         gender_charged = 1
         unsafe = 0
 
-        db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+        barber_id=None
+        barber_recommended=0
+
+        db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
         db.commit()
         msg = "Record successfully added"
-    except:
+    except sql.Error as error:
         db.rollback()
-        msg = "error in insert operation"
-      
+        msg = "Error in insert operation: "+str(error)
     finally:
-        list(msg)
+        page = []
+        page.append('<html><ul>')
+    # sql = "SELECT * FROM Review ORDER BY barbershop_id"
+    # for row in db.cursor().execute(sql):
+    #     page.append('<li>')
+    #     page.append(str(row))
+    #     page.append('</li>')
+        page.append(msg)
+        page.append('</ul><html>')
+        return ''.join(page)
 
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
@@ -64,7 +75,8 @@ def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-            reviewer_id = request.form['email']
+            reviewer_id = 'lsdkjf'
+            #reviewer_id = request.form['reviewer_id']
             barbershop_id = request.form['barbershop_id']
             date_visited = request.form['date_visited']
             date_added = request.form['date_added']
@@ -80,13 +92,16 @@ def submit_review():
             gender_charged = request.form['gender_charged']
             unsafe = request.form['unsafe']
 
-            db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+            barber_id=None
+            barber_recommended=0
+            
+            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
+
             db.commit()
             msg = "Record successfully added"
-        except:
+        except sql.Error as error:
             db.rollback()
-            msg = "error in insert operation"
-      
+            msg = "Error in insert operation: "+str(error)     
         finally:
             list(msg)
 
@@ -100,8 +115,8 @@ def list(msg):
     #     page.append('<li>')
     #     page.append(str(row))
     #     page.append('</li>')
-        page.append(msg)
-        page.append('</ul><html>')
+    page.append(msg)
+    page.append('</ul><html>')
     return ''.join(page)
 
 
