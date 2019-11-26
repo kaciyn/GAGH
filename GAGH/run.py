@@ -28,6 +28,33 @@ def root():
 def new_review():
        return render_template('submit.html')
 
+@app.route('/test/')
+def test():
+
+    reviewer_id = 'ksdjhf'
+    barbershop_id = 'lsdkfjlksdjf'
+    date_visited = 58937
+    date_added = 2340598
+    title = 'aaaaaa'
+    review_text = 'sdfgsdfgsdfgdsfgsdfg'
+    haircut_rating = 5
+    anxiety_rating = 3
+    friendliness_rating = 1
+    pricerange = 2
+ 
+    gender_remarks = 1
+    gender_charged = 1
+    unsafe = 0
+
+    db.cursor().execute("INSERT INTO Review (reviewer_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+        db.commit()
+        msg = "Record successfully added"
+      except:
+        db.rollback()
+        msg = "error in insert operation"
+      
+      finally:
+          list(msg)
 
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
