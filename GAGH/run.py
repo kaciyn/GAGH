@@ -76,20 +76,20 @@ def submit_review():
     if request.method == 'POST':
         try:
             reviewer_id = request.form.get('reviewer_id')
-            barbershop_id = request.form['barbershop_id']
-            date_visited = request.form['date_visited']
-            date_added = request.form['date_added']
-            title = request.form['title']
-            review_text = request.form['review_text']
-            haircut_rating = request.form['haircut_quality']
-            anxiety_rating = request.form['anxiety']
-            friendliness_rating = request.form['friendliness']
-            pricerange = request.form['price']
-            # barber_id = request.form['barber_id']
-            # barber_recommended = request.form['barber_recommended']
-            gender_remarks = request.form['gender_remarks']
-            gender_charged = request.form['gender_charged']
-            unsafe = request.form['unsafe']
+            barbershop_id = request.form.get('barbershop_id')
+            date_visited = request.form.get('date_visited')
+            date_added = request.form.get('date_added')
+            title = request.form.get('title')
+            review_text = request.form.get('review_text')
+            haircut_rating = request.form.get('haircut_quality')
+            anxiety_rating = request.form.get('anxiety')
+            friendliness_rating = request.form.get('friendliness')
+            pricerange = request.form.get('price')
+            # barber_id = request.form.get('barber_id')
+            # barber_recommended = request.form.get('barber_recommended')
+            gender_remarks = request.form.get('gender_remarks')
+            gender_charged = request.form.get('gender_charged')
+            unsafe = request.form.get('unsafe')
 
             barber_id=None
             barber_recommended=0
