@@ -1,6 +1,6 @@
-from flask import Flask, g,render_template,request
-
-import sqlite3 as sql,ConfigParser
+from flask import Flask,g,render_template,request
+import sys
+import sqlite3 as sql,configparser
 
 app=Flask(__name__)
 
@@ -76,6 +76,8 @@ def submit_review():
     if request.method == 'POST':
         try:
             reviewer_id = request.form.get('reviewer_id')
+            print(str(reviewer_id), file=sys.stderr)
+
             barbershop_id = request.form.get('barbershop_id')
             date_visited = request.form.get('date_visited')
             date_added = request.form.get('date_added')
@@ -129,7 +131,7 @@ def config():
     return '\t'.join(str)
 
 def init(app):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     try:
         config_location = "etc/defaults.cfg"
         config.read(config_location)
@@ -140,7 +142,7 @@ def init(app):
         app.config['url'] = config.get("config", "url")
 
     except:
-        print "Could not read configs from: ", config_location
+        print ("Could not read configs from: ", config_location)
 
 init(app)
 
