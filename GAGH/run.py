@@ -35,25 +35,30 @@ def new_review():
 
 @app.route('/submit/submit-review',methods = ['POST', 'GET'])
 def submit_review():
-    msg=''
     db = get_db()
     if request.method == 'POST':
         try:
             reviewer_id = request.form.get('reviewer_id')
-            print(str(reviewer_id), file=sys.stderr)
+            app.logger.info(reviewer_id)
 
             barbershop_id = request.form.get('barbershop_id')
             date_visited = request.form.get('date_visited')
+            app.logger.info(date_visited)
+
             date_added = request.form.get('date_added')
             title = request.form.get('title')
             review_text = request.form.get('review_text')
             haircut_rating = request.form.get('haircut_quality')
+            app.logger.info(haircut_rating)
+
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
             pricerange = request.form.get('price')
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
+            app.logger.info(gender_remarks)
+            
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
 
@@ -63,14 +68,14 @@ def submit_review():
             db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
 
             db.commit()
-            msg = "Record successfully added"
+            app.logger.info('Successfully committed review to db')
         except sql.Error as error:
             db.rollback()
-            msg = "Error in insert operation: "+str(error)     
+            app.logger.error("Error in insert operation: "+str(error))     
         finally:
-            list(msg)
+            list()
 
-def list(msg):
+def list():
     db = get_db()
 
     page = []
