@@ -17,7 +17,7 @@ html_location='static/html/'
 def get_db():
     db = getattr(g, 'db', None)
     if db is None:
-        db = sql.connect(d b_location)
+        db = sql.connect(db_location)
         g.db = db
     return db
 
