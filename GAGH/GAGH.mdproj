@@ -322,6 +322,7 @@
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
     <None Include="static\html\submit-review.html" />
+    <None Include="testform.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />

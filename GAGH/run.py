@@ -36,7 +36,7 @@ def new_review():
    return render_template('submit.html')
     
 
-@app.route('/submit/submit-review',methods = ['POST', 'GET'])
+@app.route('/submit/submit-review/',methods = ['POST', 'GET'])
 def submit_review():
     db = get_db()
     if request.method == 'POST':
@@ -106,6 +106,21 @@ def logtest():
     app.logger.info('testing info from '+url_for('logtest'))
     app.logger.error('testing error')
     return 'testing logger'
+
+
+@app.route('/formtest/')
+def formtest():
+   return render_template('formtest.html')
+
+@app.route('/testresult/',methods = ['POST', 'GET'])
+def submit_review():
+    db = get_db()
+    if request.method == 'POST':
+        friendliness_rating = request.form.get('friendliness')
+        app.logger.info('Form test result: '+friendliness_rating)
+        return friendliness_rating
+    else return "didn't get result"
+
 
 def init(app):
     config = configparser.ConfigParser()
