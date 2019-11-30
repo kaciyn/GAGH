@@ -50,7 +50,7 @@ def submit_review():
 
             date_added = request.form.get('date_added')
             title = request.form.get('title')
-            review_text = request.form.get('review_text')
+            review_text = request.form.get('review')
             haircut_rating = request.form.get('haircut_quality')
             app.logger.info('haircut rating: '+haircut_rating)
 
