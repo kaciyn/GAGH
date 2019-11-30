@@ -4,6 +4,9 @@ from logging.handlers import RotatingFileHandler
 import sys
 import os
 import sqlite3 as sql,configparser
+import logging
+import datetime
+import time
 
 app=Flask(__name__)
 app.secret_key=os.urandom(24)
@@ -43,8 +46,9 @@ def submit_review():
             print(str(reviewer_id), file=sys.stderr)
 
             barbershop_id = request.form.get('barbershop_id')
-            date_visited = request.form.get('date_visited')
-            date_added = request.form.get('date_added')
+            #date_visited = request.form.get('date_visited')
+            date_visited = time.time()
+            date_added=time.time()
             title = request.form.get('title')
             review_text = request.form.get('review_text')
             haircut_rating = request.form.get('haircut_quality')
@@ -63,10 +67,10 @@ def submit_review():
             db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
 
             db.commit()
-            msg = "Record successfully added"
+            app.logger.info("Record successfully added")
         except sql.Error as error:
             db.rollback()
-            msg = "Error in insert operation: "+str(error)     
+            app.logger.error("Error in insert operation: "+str(error))     
         finally:
             list(msg)
 
@@ -94,6 +98,11 @@ def config():
     strg.append('ip_address:'+app.config['ip_address'])
     return '\t'.join(str)
 
+@app.route('/logtest/')
+def logtest():
+    app.logger.info('testing info from '+url_for('logtest'))
+    app.logger.error('testing error')
+    return 'testing logger'
 
 def init(app):
     config = configparser.ConfigParser()
@@ -111,7 +120,7 @@ def init(app):
         app.config['log_level'] = config.get("logging", "level")
 
     except:
-        print ("Could not read configs from: ", config_location)
+        app.logger.error ("Could not read configs from: ", config_location)
 
 
 def logs(app):
