@@ -17,7 +17,7 @@ html_location='static/html/'
 def get_db():
     db = getattr(g, 'db', None)
     if db is None:
-        db = sql.connect(db_location)
+        db = sql.connect(d b_location)
         g.db = db
     return db
 
@@ -42,17 +42,17 @@ def submit_review():
     if request.method == 'POST':
         try:
             reviewer_id = request.form.get('reviewer_id')
-            app.logger.info(reviewer_id)
+            app.logger.info('reviewer id: '+reviewer_id)
 
             barbershop_id = request.form.get('barbershop_id')
             date_visited = request.form.get('date_visited')
-            app.logger.info('date visited:'+str(date_visited))
+            app.logger.info('date visited: '+str(date_visited))
 
             date_added = request.form.get('date_added')
             title = request.form.get('title')
             review_text = request.form.get('review_text')
             haircut_rating = request.form.get('haircut_quality')
-            app.logger.info(haircut_rating)
+            app.logger.info('haircut rating: '+haircut_rating)
 
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
@@ -60,7 +60,7 @@ def submit_review():
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
-            app.logger.info(gender_remarks)
+            app.logger.info('gender remarks: '+gender_remarks)
             
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
