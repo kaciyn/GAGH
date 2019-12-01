@@ -11,9 +11,6 @@
     <None Include="var\GAGH.db" />
     <None Include="static\css\map.css" />
     <None Include="static\css\styles.css" />
-    <None Include="static\html\base.html" />
-    <None Include="static\html\map.html" />
-    <None Include="static\html\submit.html" />
     <None Include="static\js\map.js" />
     <None Include="static\js\scripts.js" />
     <None Include="static\themes\.DS_Store" />
@@ -321,14 +318,17 @@
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
-    <None Include="static\html\submit-review.html" />
-    <None Include="testform.html" />
+    <None Include="templates\map.html" />
+    <None Include="templates\submit-review.html" />
+    <None Include="templates\base.html" />
+    <None Include="templates\list.html" />
+    <None Include="templates\submit.html" />
+    <None Include="templates\testform.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
     <Folder Include="static\" />
     <Folder Include="static\css\" />
-    <Folder Include="static\html\" />
     <Folder Include="static\js\" />
     <Folder Include="static\themes\" />
   </ItemGroup>
