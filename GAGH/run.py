@@ -8,6 +8,7 @@ import bcrypt
 
 from flask import Flask,g,render_template,request, url_for,session, redirect
 from logging.handlers import RotatingFileHandler
+from functools import wraps
 
 
 
@@ -64,7 +65,7 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
+            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
 
             db.commit()
             app.logger.info('Successfully committed review to db')
@@ -72,7 +73,7 @@ def submit_review():
             db.rollback()
             app.logger.error("Error in insert operation: "+str(error))     
         finally:
-            list()
+           return list()
 
 def list():
     db = get_db()
@@ -154,7 +155,7 @@ def check_auth(email, password):
     if(email == result.email):
         if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
             return True
-        else
+        else:
             app.logger.error("Wrong password")
             return False
 
