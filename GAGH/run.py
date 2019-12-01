@@ -110,7 +110,7 @@ def logtest():
 
 @app.route('/formtest/')
 def formtest():
-   return render_template('formtest.html')
+   return render_template('testform.html')
 
 @app.route('/testresult/',methods = ['POST', 'GET'])
 def testsubmit():

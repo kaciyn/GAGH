@@ -1,11 +1,6 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <form action="/testresult" method="POST" name="form">
+﻿{%extends 'base.html'%}
+{%block content%}
+<form action="/testresult/" method="POST" name="form">
 
         <fieldset class="rating" name="friendliness">
             <input type="radio" id="rating-5" name="friendliness" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
@@ -13,8 +8,11 @@
             <input type="radio" id="rating-3" name="friendliness" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
             <input type="radio" id="rating-2" name="friendliness" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
             <input type="radio" id="rating-1" name="friendliness" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
-        </fieldset>
+
+	</fieldset>
+                   <button type="submit" class="btn btn-primary">Submit Review</button>
+
     </form>
 
-</body>
-</html>
+{% endblock %}}
+
