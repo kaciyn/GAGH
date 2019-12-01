@@ -1,12 +1,15 @@
-from flask import Flask,g,render_template,request, url_for,session
-from logging.handlers import RotatingFileHandler
-
 import sys
 import os
 import sqlite3 as sql,configparser
 import logging
 from datetime import datetime
 import time
+import bcrypt
+
+from flask import Flask,g,render_template,request, url_for,session, redirect
+from logging.handlers import RotatingFileHandler
+
+
 
 app=Flask(__name__)
 app.secret_key=os.urandom(24)
@@ -42,17 +45,14 @@ def submit_review():
     if request.method == 'POST':
         try:
             reviewer_id = request.form.get('reviewer_id')
-            app.logger.info('reviewer id: '+reviewer_id)
 
             barbershop_id = request.form.get('barbershop_id')
-            date_visited = request.form.get('date_visited')
-            app.logger.info('date visited: '+str(date_visited))
+            date_visited = int(request.form.get('date_visited').replace('-',''))
 
-            date_added = time.mktime(datetime.timetuple())
+            date_added = int(round(time.time() * 1000))
             title = request.form.get('title')
             review_text = request.form.get('review')
             haircut_rating = request.form.get('haircut_quality')
-            app.logger.info('haircut rating: '+haircut_rating)
 
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
@@ -60,13 +60,9 @@ def submit_review():
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
-            app.logger.info('gender remarks: '+gender_remarks)
             
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
-
-            barber_id=None
-            barber_recommended=0
             
             db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
 
@@ -119,7 +115,7 @@ def testsubmit():
             reviewer_id = request.form.get('reviewer_id')
 
             barbershop_id = request.form.get('barbershop_id')
-            date_visited = request.form.get('date_visited')
+            date_visited = int(request.form.get('date_visited').replace('-',''))
 
             date_added = int(round(time.time() * 1000))
             title = request.form.get('title')
@@ -139,6 +135,53 @@ def testsubmit():
             return 'reviewer_id: '+reviewer_id+' '+'barbershop_id: '+barbershop_id+' '+'date_visited: '+date_visited+' '+'date_added: '+str(date_added)+' '+'title: '+title+' '+'review_text: '+review_text+' '+'haircut_rating: '+haircut_rating+' '+'anxiety_rating: '+anxiety_rating+' '+'friendliness: '+friendliness_rating+' '+'pricerange: '+pricerange+' '+'gender_remarks: '+gender_remarks+' '+'gender_charged: '+gender_charged+' '+'unsafe: '+unsafe
     else: 
         return "didn't get result"
+
+
+def check_auth(email, password):
+    db = get_db()
+    db.row_factory = sqlite3.Row
+
+    try:
+        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
+        result=db.cursor().fetchall
+        app.logger.info('Successfully retrieved user')
+    except sql.Error as error:
+        app.logger.error("Error retrieving user: "+str(error))
+        result=None
+    finally:
+        email, hash_password = result['email'], result['hash_password']
+
+    if(email == result.email):
+        if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
+            return True
+        else
+            app.logger.error("Wrong password")
+            return False
+
+    else:
+        app.logger.error("User not found")
+        return False
+    
+
+def requires_login(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        status = session.get('logged_in', False)
+        if not status:
+            return redirect(url_for('.root'))
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/logout/')
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('.root'))
+
+@app.route("/secret/")
+@requires_login
+def secret():
+    return "Secret Page"
+
 
 
 def init(app):

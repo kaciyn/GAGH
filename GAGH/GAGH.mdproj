@@ -324,6 +324,7 @@
     <None Include="templates\list.html" />
     <None Include="templates\submit.html" />
     <None Include="templates\testform.html" />
+    <None Include="templates\login.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
