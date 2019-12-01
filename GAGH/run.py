@@ -5,7 +5,7 @@ import sys
 import os
 import sqlite3 as sql,configparser
 import logging
-import datetime
+from datetime import datetime
 import time
 
 app=Flask(__name__)
@@ -48,7 +48,7 @@ def submit_review():
             date_visited = request.form.get('date_visited')
             app.logger.info('date visited: '+str(date_visited))
 
-            date_added = datetime.timestamp(now)
+            date_added = time.mktime(datetime.timetuple())
             title = request.form.get('title')
             review_text = request.form.get('review')
             haircut_rating = request.form.get('haircut_quality')
@@ -121,7 +121,7 @@ def testsubmit():
             barbershop_id = request.form.get('barbershop_id')
             date_visited = request.form.get('date_visited')
 
-            date_added = datetime.timestamp(now)
+            date_added = int(round(time.time() * 1000))
             title = request.form.get('title')
             review_text = request.form.get('review')
             haircut_rating = request.form.get('haircut_quality')
@@ -135,7 +135,8 @@ def testsubmit():
             
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
-        return 'reviewer_id: '+reviewer_id+' '+'barbershop_id: '+barbershop_id+' '+'date_visited: '+date_visited+' '+'date_added: '+date_added+' '+'title: '+title+' '+'review_text: '+review_text+' '+'haircut_rating: '+haircut_rating+' '+'anxiety_rating: '+anxiety_rating+' '+'friendliness: '+friendliness_rating+' '+'pricerange: '+pricerange+' '+'gender_remarks: '+gender_remarks+' '+'gender_charged: '+gender_charged+' '+'unsafe: '+unsafe
+            
+            return 'reviewer_id: '+reviewer_id+' '+'barbershop_id: '+barbershop_id+' '+'date_visited: '+date_visited+' '+'date_added: '+str(date_added)+' '+'title: '+title+' '+'review_text: '+review_text+' '+'haircut_rating: '+haircut_rating+' '+'anxiety_rating: '+anxiety_rating+' '+'friendliness: '+friendliness_rating+' '+'pricerange: '+pricerange+' '+'gender_remarks: '+gender_remarks+' '+'gender_charged: '+gender_charged+' '+'unsafe: '+unsafe
     else: 
         return "didn't get result"
 
