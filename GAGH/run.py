@@ -113,13 +113,14 @@ def formtest():
    return render_template('formtest.html')
 
 @app.route('/testresult/',methods = ['POST', 'GET'])
-def submit_review():
+def testsubmit():
     db = get_db()
     if request.method == 'POST':
         friendliness_rating = request.form.get('friendliness')
         app.logger.info('Form test result: '+friendliness_rating)
         return friendliness_rating
-    else return "didn't get result"
+    else: 
+        return "didn't get result"
 
 
 def init(app):
