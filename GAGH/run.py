@@ -17,28 +17,16 @@ app.secret_key=os.urandom(24)
 db_location='var/GAGH.db'
 html_location='static/html/'
 
-def get_db():
-    db = getattr(g, 'db', None)
-    if db is None:
-        db = sql.connect(db_location)
-        g.db = db
-    return db
-
-@app.teardown_appcontext
-def close_db_connection(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.close()
-
+#PAGES
 @app.route('/')
 def root():
 	return render_template('base.html'),200
 
+#SUBMIT
 @app.route("/submit/")
 def new_review():
    return render_template('submit.html')
     
-
 @app.route('/submit/submit-review/',methods = ['POST', 'GET'])
 def submit_review():
     db = get_db()
@@ -88,56 +76,82 @@ def list():
     return ''.join(page)
 
 
-@app.route('/config/')
-def config():
-    strg = []
-    strg.append('Debug: %s' % app.config['DEBUG'])
-    strg.append('port:'+app.config['port'])
-    strg.append('url:'+app.config['url'])
-    strg.append('ip_address:'+app.config['ip_address'])
-    return '\t'.join(str)
+#USER LOGINS, partially adapted from workbook
+@app.route('/register/')
+def register():
+    return render_template('newuser.html')
 
-@app.route('/logtest/')
-def logtest():
-    app.logger.info('testing info from '+url_for('logtest'))
-    app.logger.error('testing error')
-    return 'testing logger'
-
-
-@app.route('/formtest/')
-def formtest():
-   return render_template('testform.html')
-
-@app.route('/testresult/',methods = ['POST', 'GET'])
-def testsubmit():
+@app.route('/register/newuser',methods = ['POST', 'GET'])
+def newuser():
     db = get_db()
+
     if request.method == 'POST':
-            reviewer_id = request.form.get('reviewer_id')
+        new_user=request.form.get('user')
+        new_user_password=request.form.get('password')
 
-            barbershop_id = request.form.get('barbershop_id')
-            date_visited = int(request.form.get('date_visited').replace('-',''))
 
-            date_added = int(round(time.time() * 1000))
-            title = request.form.get('title')
-            review_text = request.form.get('review')
-            haircut_rating = request.form.get('haircut_quality')
+        #if user already exists
+        if get_user(new_user)==None:
 
-            anxiety_rating = request.form.get('anxiety')
-            friendliness_rating = request.form.get('friendliness')
-            pricerange = request.form.get('price')
-            # barber_id = request.form.get('barber_id')
-            # barber_recommended = request.form.get('barber_recommended')
-            gender_remarks = request.form.get('gender_remarks')
-            
-            gender_charged = request.form.get('gender_charged')
-            unsafe = request.form.get('unsafe')
-            
-            return 'reviewer_id: '+reviewer_id+' '+'barbershop_id: '+barbershop_id+' '+'date_visited: '+date_visited+' '+'date_added: '+str(date_added)+' '+'title: '+title+' '+'review_text: '+review_text+' '+'haircut_rating: '+haircut_rating+' '+'anxiety_rating: '+anxiety_rating+' '+'friendliness: '+friendliness_rating+' '+'pricerange: '+pricerange+' '+'gender_remarks: '+gender_remarks+' '+'gender_charged: '+gender_charged+' '+'unsafe: '+unsafe
-    else: 
-        return "didn't get result"
+            db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
+            result=db.cursor().fetchall
+            app.logger.info('Successfully retrieved user')
+
+            user = request.form['email']
+            password=request.form['password']
+            hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
+            name = request.form['name']
+            location = request.form['location']
+
+            db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name) )
+
+            db.commit()
+            app.logger.info('Successfully added user to db')
+            except sql.Error as error:
+                db.rollback()
+                app.logger.error("Error in user insert operation: "+str(error))     
+            finally:
+                login(email,password)
+        else:
+            app.logger.error('User'+new_user+' already exists!')
+            register()
+            #if you have time send the old user details back to the form, or flash an error message and stay on the page
+
+@app.route('/user/')
+def user():
+    return render_template('user.html')
+
+
+@app.route('/login/',methods = ['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        user = request.form['email']
+        password = request.form['password']
+
+        return user_login(user,password)
+  
+
+def user_login(email,password):         
+    if check_auth(email,password):
+        session['logged_in'] = True
+        return redirect(url_for('.secret'))
 
 
 def check_auth(email, password):
+    result=get_user(email)
+
+    if(email == result.email):
+        if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
+            return True
+        else
+            app.logger.error("Wrong password")
+            return False
+    else:
+        app.logger.error("User not found")
+        return False
+  
+
+def get_user(email):
     db = get_db()
     db.row_factory = sqlite3.Row
 
@@ -149,19 +163,7 @@ def check_auth(email, password):
         app.logger.error("Error retrieving user: "+str(error))
         result=None
     finally:
-        email, hash_password = result['email'], result['hash_password']
-
-    if(email == result.email):
-        if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
-            return True
-        else
-            app.logger.error("Wrong password")
-            return False
-
-    else:
-        app.logger.error("User not found")
-        return False
-    
+        return result
 
 def requires_login(f):
     @wraps(f)
@@ -183,7 +185,31 @@ def secret():
     return "Secret Page"
 
 
+#LOGGING
+def logs(app):
+    log_pathname = app.config['log_location'] + app.config['log_file']
+    file_handler = RotatingFileHandler(log_pathname, maxBytes=1024* 1024 * 10 , backupCount=1024)
+    file_handler.setLevel( app.config['log_level'] )
+    formatter = logging.Formatter("%(levelname)s | %(asctime)s |  %(module)s | %(funcName)s | %(message)s")
+    file_handler.setFormatter(formatter)
+    app.logger.setLevel( app.config['log_level'] )
+    app.logger.addHandler(file_handler)
 
+#DATABASE
+def get_db():
+    db = getattr(g, 'db', None)
+    if db is None:
+        db = sql.connect(db_location)
+        g.db = db
+    return db
+
+@app.teardown_appcontext
+def close_db_connection(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+#INIT
 def init(app):
     config = configparser.ConfigParser()
     try:
@@ -203,14 +229,6 @@ def init(app):
         app.logger.error ("Could not read configs from: ", config_location)
 
 
-def logs(app):
-    log_pathname = app.config['log_location'] + app.config['log_file']
-    file_handler = RotatingFileHandler(log_pathname, maxBytes=1024* 1024 * 10 , backupCount=1024)
-    file_handler.setLevel( app.config['log_level'] )
-    formatter = logging.Formatter("%(levelname)s | %(asctime)s |  %(module)s | %(funcName)s | %(message)s")
-    file_handler.setFormatter(formatter)
-    app.logger.setLevel( app.config['log_level'] )
-    app.logger.addHandler(file_handler)
 
 init(app)
 logs(app)

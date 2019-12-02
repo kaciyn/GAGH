@@ -63,6 +63,7 @@ body,
 }
 
 .htitle {
+    position: center;
     text-align: center;
     font-weight: bold;
     width: 400px;
@@ -92,4 +93,9 @@ body,
     text-align: center;
     font-size: 70px;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.dropdownMenuItem {
+    text-decoration: none;
+    color: black
 }
