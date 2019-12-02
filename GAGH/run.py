@@ -91,7 +91,6 @@ def register():
 
 @app.route('/register/newuser/',methods = ['POST', 'GET'])
 def newuser():
-def newuser():
     db = get_db()
     email = request.form['email'].lower().strip()
     password=request.form['password'].strip()
