@@ -135,8 +135,8 @@ def login():
         email = request.form['email'].lower().strip()
         password = request.form['password'].strip()
         app.logger.info("Login requested for: "+email)
-        user_login(email,password)
-        return
+        
+        return user_login(email,password)
   
 
 def user_login(email,password):         
@@ -144,6 +144,8 @@ def user_login(email,password):
     if check_auth(email,password):
         session['logged_in'] = True
         return redirect(url_for('.secret'))
+    else:
+        return redirect(url_for('.root'))
 
 
 def check_auth(email, password):
