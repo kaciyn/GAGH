@@ -106,7 +106,7 @@ def newuser():
                 db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
-                app.logger.info('Successfully added user '+result['email']+' to db')
+                app.logger.info('Successfully added user '+email+' to db')
 
                 user_login(email,password)
 
