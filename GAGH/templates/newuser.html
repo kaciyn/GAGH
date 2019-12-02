@@ -1,14 +1,14 @@
 ﻿{%extends 'base.html'%}
 {%block content%}
 
-<form name="newuser_form" action="/" method="post">
+<form name="newuser_form" action="/register/newuser/" method="post">
 
     <input type="text" placeholder="Name" name="name">
     <input type="text" placeholder="Location" name="location">
 
     <input type="email" placeholder="Email" name="email">
     <input type="password" placeholder="Password" name="password">
-    <button type="submit" class="btn" name="button" value="login">
+    <button type="submit" class="btn" name="button" value="newuser">
         Sign Up
     </button>
 

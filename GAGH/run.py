@@ -82,24 +82,19 @@ def list():
 def register():
     return render_template('newuser.html')
 
-@app.route('/register/newuser',methods = ['POST', 'GET'])
+@app.route('/register/newuser/',methods = ['POST', 'GET'])
 def newuser():
     db = get_db()
-
+    email = request.form['email']
+    password=request.form['password']
     if request.method == 'POST':
-        new_user=request.form.get('user')
-        new_user_password=request.form.get('password')
-
-
-        #if user already exists
-        if get_user(new_user)==None:
+        #if user doesn't already exist
+        if get_user(email)==False:
             try:
-                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
+                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = "+email)
                 result=db.cursor().fetchall
                 app.logger.info('Successfully retrieved user')
 
-                user = request.form['email']
-                password=request.form['password']
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name']
                 location = request.form['location']
@@ -114,7 +109,7 @@ def newuser():
             finally:
                 user_login(email,password)
         else:
-            app.logger.error('User'+new_user+' already exists!')
+            app.logger.error('User'+email+' already exists!')
             register()
             #if you have time send the old user details back to the form, or flash an error message and stay on the page
 
@@ -126,13 +121,15 @@ def user():
 @app.route('/login/',methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        user = request.form['email']
+        email = request.form['email']
         password = request.form['password']
-
-        return user_login(user,password)
+        app.logger.info("Email: "+email)
+        user_login(email,password)
+        return
   
 
 def user_login(email,password):         
+    app.logger.info('Email passed to user login: '+email)
     if check_auth(email,password):
         session['logged_in'] = True
         return redirect(url_for('.secret'))
@@ -141,7 +138,7 @@ def user_login(email,password):
 def check_auth(email, password):
     result=get_user(email)
 
-    if(email==None):
+    if(result==False):
         app.logger.error("User not found")
         return False
     if(email == result.email):
@@ -158,6 +155,8 @@ def check_auth(email, password):
 def get_user(email):
     db = get_db()
     db.row_factory = sql.Row
+    
+    result=False
 
     try:
         db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",email)
@@ -165,7 +164,6 @@ def get_user(email):
         app.logger.info('Successfully retrieved user')
     except sql.Error as error:
         app.logger.error("Error retrieving user/user not found: "+str(error))
-        result=None
     finally:
         return result
 
