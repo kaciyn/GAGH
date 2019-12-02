@@ -93,21 +93,21 @@ def newuser():
 
         #if user already exists
         if get_user(new_user)==None:
+            try:
+                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
+                result=db.cursor().fetchall
+                app.logger.info('Successfully retrieved user')
 
-            db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
-            result=db.cursor().fetchall
-            app.logger.info('Successfully retrieved user')
+                user = request.form['email']
+                password=request.form['password']
+                hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
+                name = request.form['name']
+                location = request.form['location']
 
-            user = request.form['email']
-            password=request.form['password']
-            hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-            name = request.form['name']
-            location = request.form['location']
+                db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name) )
 
-            db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name) )
-
-            db.commit()
-            app.logger.info('Successfully added user to db')
+                db.commit()
+                app.logger.info('Successfully added user to db')
             except sql.Error as error:
                 db.rollback()
                 app.logger.error("Error in user insert operation: "+str(error))     
