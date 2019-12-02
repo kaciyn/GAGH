@@ -25,10 +25,12 @@ def root():
 
 #SUBMIT
 @app.route("/submit/")
+@requires_login
 def new_review():
    return render_template('submit.html')
     
 @app.route('/submit/submit-review/',methods = ['POST', 'GET'])
+@requires_login
 def submit_review():
     db = get_db()
     if request.method == 'POST':
@@ -85,19 +87,19 @@ def register():
 @app.route('/register/newuser/',methods = ['POST', 'GET'])
 def newuser():
     db = get_db()
-    email = request.form['email']
-    password=request.form['password']
+    email = request.form['email'].lower().strip()
+    password=request.form['password'].strip()
     if request.method == 'POST':
         #if user doesn't already exist
         if get_user(email)==False:
             try:
-                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = "+email)
+                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = '"+email+"'")
                 result=db.cursor().fetchall
                 app.logger.info('Successfully retrieved user')
 
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-                name = request.form['name']
-                location = request.form['location']
+                name = request.form['name'].strip()
+                location = request.form['location'].strip()
 
                 db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name) )
 
@@ -111,9 +113,11 @@ def newuser():
         else:
             app.logger.error('User'+email+' already exists!')
             register()
-            #if you have time send the old user details back to the form, or flash an error message and stay on the page
+            #if you have time (you don't) send the old user details back to the form, or flash an error message and stay on the page
+    return
 
 @app.route('/user/')
+@requires_login
 def user():
     return render_template('user.html')
 
@@ -121,8 +125,8 @@ def user():
 @app.route('/login/',methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form['email'].lower().strip()
+        password = request.form['password'].strip()
         app.logger.info("Email: "+email)
         user_login(email,password)
         return
