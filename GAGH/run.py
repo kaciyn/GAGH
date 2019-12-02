@@ -91,6 +91,7 @@ def register():
 
 @app.route('/register/newuser/',methods = ['POST', 'GET'])
 def newuser():
+def newuser():
     db = get_db()
     email = request.form['email'].lower().strip()
     password=request.form['password'].strip()
@@ -109,16 +110,23 @@ def newuser():
 
                 db.commit()
                 app.logger.info('Successfully added user '+email+' to db')
+
+                user_login(email,password)
+
+                return render_template('.newusersuccess')
+
             except sql.Error as error:
                 db.rollback()
                 app.logger.error('Error in user '+email+' insert operation: '+str(error))     
-            finally:
-                user_login(email,password)
         else:
             app.logger.error('User'+email+' already exists!')
-            register()
+            return redirect(url_for('.register'))
             #if you have time (you don't) send the old user details back to the form, or flash an error message and stay on the page
-    return
+
+@app.route('/newusersuccess/')
+@requires_login
+def newusersuccess():
+    return render_template('newusersuccess.html')
 
 @app.route('/user/')
 @requires_login
@@ -157,17 +165,16 @@ def check_auth(email, password):
         return False
 
 def get_user(email):
-    db = get_db()
-    
-    result=False
+    db = get_db()  
 
     try:
         result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email])
         app.logger.info('Successfully retrieved user '+result.email)
+        return result
     except sql.Error as error:
         app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
-    finally:
-        return result
+        return False
+
 
 @app.route('/logout/')
 def logout():
