@@ -144,7 +144,7 @@ def check_auth(email, password):
     if(email == result.email):
         if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
             return True
-        else
+        else:
             app.logger.error("Wrong password")
             return False
     else:
@@ -154,7 +154,7 @@ def check_auth(email, password):
 
 def get_user(email):
     db = get_db()
-    db.row_factory = sqlite3.Row
+    db.row_factory = sql.Row
 
     try:
         db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
