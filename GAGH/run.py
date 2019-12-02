@@ -141,6 +141,9 @@ def user_login(email,password):
 def check_auth(email, password):
     result=get_user(email)
 
+    if(email==None):
+         app.logger.error("User not found")
+        return False
     if(email == result.email):
         if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
             return True
@@ -157,7 +160,7 @@ def get_user(email):
     db.row_factory = sql.Row
 
     try:
-        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = (?)",(email))
+        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",email)
         result=db.cursor().fetchall
         app.logger.info('Successfully retrieved user')
     except sql.Error as error:
