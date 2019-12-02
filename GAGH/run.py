@@ -112,7 +112,7 @@ def newuser():
                 db.rollback()
                 app.logger.error("Error in user insert operation: "+str(error))     
             finally:
-                login(email,password)
+                user_login(email,password)
         else:
             app.logger.error('User'+new_user+' already exists!')
             register()
@@ -142,7 +142,7 @@ def check_auth(email, password):
     result=get_user(email)
 
     if(email==None):
-         app.logger.error("User not found")
+        app.logger.error("User not found")
         return False
     if(email == result.email):
         if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
