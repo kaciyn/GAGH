@@ -106,7 +106,7 @@ def newuser():
                 name = request.form['name'].strip()
                 location = request.form['location'].strip()
 
-                db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name) )
+                db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
                 app.logger.info('Successfully added user to db')
@@ -168,7 +168,7 @@ def get_user(email):
     result=False
 
     try:
-        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",email)
+        db.cursor().execute("SELECT email,hash_password FROM User WHERE email ='"+email+"'")
         result=db.cursor().fetchall
         app.logger.info('Successfully retrieved user')
     except sql.Error as error:
