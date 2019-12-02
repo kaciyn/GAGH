@@ -8,6 +8,7 @@ import bcrypt
 
 from flask import Flask,g,render_template,request, url_for,session, redirect
 from logging.handlers import RotatingFileHandler
+from functools import wraps
 
 
 
@@ -52,7 +53,7 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,barber_id,barber_recommended) )
+            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
 
             db.commit()
             app.logger.info('Successfully committed review to db')
@@ -60,7 +61,7 @@ def submit_review():
             db.rollback()
             app.logger.error("Error in insert operation: "+str(error))     
         finally:
-            list()
+           return list()
 
 def list():
     db = get_db()
@@ -160,10 +161,11 @@ def get_user(email):
         result=db.cursor().fetchall
         app.logger.info('Successfully retrieved user')
     except sql.Error as error:
-        app.logger.error("Error retrieving user: "+str(error))
+        app.logger.error("Error retrieving user/user not found: "+str(error))
         result=None
     finally:
         return result
+
 
 def requires_login(f):
     @wraps(f)
