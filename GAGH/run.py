@@ -60,7 +60,7 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            db.cursor().execute("INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) )
+            query_db('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
 
             db.commit()
             app.logger.info('Successfully committed review to db')
@@ -98,15 +98,14 @@ def newuser():
         #if user doesn't already exist
         if get_user(email)==False:
             try:
-                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",[email])
-                result=db.cursor().fetchall
+                result=query_db('SELECT email,hash_password FROM User WHERE email = ?',email,one=True)
                 app.logger.info('Successfully retrieved user '+email)
 
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name'].strip()
                 location = request.form['location'].strip()
 
-                db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
+                query_db("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
                 app.logger.info('Successfully added user '+email+' to db')
@@ -159,13 +158,11 @@ def check_auth(email, password):
 
 def get_user(email):
     db = get_db()
-    db.row_factory = sql.Row
     
     result=False
 
     try:
-        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",[email])
-        result=db.cursor().fetchall
+        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",email)
         app.logger.info('Successfully retrieved user '+result.email)
     except sql.Error as error:
         app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
@@ -194,11 +191,20 @@ def logs(app):
     app.logger.addHandler(file_handler)
 
 #DATABASE
+#from https://flask.palletsprojects.com/en/0.12.x/patterns/sqlite3/#easy-querying
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
 def get_db():
     db = getattr(g, 'db', None)
     if db is None:
         db = sql.connect(db_location)
         g.db = db
+        db.row_factory = sql.Row
+
     return db
 
 @app.teardown_appcontext
