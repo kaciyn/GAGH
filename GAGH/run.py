@@ -91,12 +91,11 @@ def register():
 
 @app.route('/register/newuser/',methods = ['POST', 'GET'])
 def newuser():
-    db = get_db()
     email = request.form['email'].lower().strip()
     password=request.form['password'].strip()
     if request.method == 'POST':
         #if user doesn't already exist
-        if get_user(email)==False:
+        if get_user(email) is None:
             try:
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name'].strip()
@@ -108,8 +107,6 @@ def newuser():
                 app.logger.info('Successfully added user '+result['email']+' to db')
 
                 user_login(email,password)
-
-                return redirect(url_for('.newusersuccess')
 
             except sql.Error as error:
                 db.rollback()
@@ -150,7 +147,7 @@ def user_login(email,password):
 def check_auth(email, password):
     result=get_user(email)
 
-    if(result==False):
+    if(result is None):
         app.logger.error('User '+email+' not found')
         return False
     elif (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
@@ -161,14 +158,14 @@ def check_auth(email, password):
         return False
 
 def get_user(email):
-    db = get_db()  
-    try:
-        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email])
-        app.logger.info('Successfully retrieved user '+result['email'])
-        return result
-    except sql.Error as error:
-        app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
-        return False
+   # try:
+    result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
+    app.logger.info('Successfully retrieved user '+result[0])
+    app.logger.info('Result length: '+result.len()
+   # except sql.Error as error:
+    #    app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
+   # finally:
+    return result
 
 
 @app.route('/logout/')
