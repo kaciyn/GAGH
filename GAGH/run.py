@@ -98,7 +98,7 @@ def newuser():
         #if user doesn't already exist
         if get_user(email)==False:
             try:
-                result=query_db('SELECT email,hash_password FROM User WHERE email = ?',email,one=True)
+                result=query_db('SELECT email,hash_password FROM User WHERE email = ?',[email],one=True)
                 app.logger.info('Successfully retrieved user '+email)
 
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
@@ -162,7 +162,7 @@ def get_user(email):
     result=False
 
     try:
-        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",email)
+        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email])
         app.logger.info('Successfully retrieved user '+result.email)
     except sql.Error as error:
         app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))

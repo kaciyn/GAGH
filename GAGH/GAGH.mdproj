@@ -326,6 +326,7 @@
     <None Include="templates\testform.html" />
     <None Include="templates\newuser.html" />
     <None Include="templates\user.html" />
+    <None Include="templates\newusersuccess.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
