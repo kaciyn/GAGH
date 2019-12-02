@@ -1,7 +1,7 @@
 import sys,os,sqlite3 as sql,configparser,logging,time,bcrypt
 from datetime import datetime
 
-from flask import Flask,g,render_template,request, url_for,session, redirect
+from flask import Flask,g,render_template,request, url_for,session, redirect, flash
 from logging.handlers import RotatingFileHandler
 from functools import wraps
 
@@ -123,12 +123,6 @@ def newuser():
 def newusersuccess():
     return render_template('newusersuccess.html')
 
-@app.route('/user/')
-@requires_login
-def user():
-    return render_template('user.html')
-
-
 @app.route('/login/',methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -143,7 +137,10 @@ def user_login(email,password):
     app.logger.info('Email passed to user login: '+email)
     if check_auth(email,password):
         session['logged_in'] = True
-        return redirect(url_for('.secret'))
+        
+        flash('Successfully logged in')
+
+        return redirect(url_for('.user'))
     else:
         return redirect(url_for('.root'))
 
@@ -152,12 +149,15 @@ def check_auth(email, password):
     result=get_user(email)
 
     if(result is None):
-        app.logger.error('User '+email+' not found')
+        message='User '+email+' not found'
+        flash(message)
+        app.logger.error(message)
         return False
     elif (result['hash_password'] == bcrypt.hashpw(password.encode('utf-8'), result['hash_password'])):
         app.logger.info('Correct password for user '+email)
         return True
     else:
+        flash('Wrong password entered')
         app.logger.error('Wrong password for user '+email)
         return False
 
@@ -173,15 +173,19 @@ def get_user(email):
         return result
 
 
+@app.route('/user/')
+@requires_login
+def user():
+    return render_template('user.html')
+
+
 @app.route('/logout/')
 def logout():
     session['logged_in'] = False
+    flash('Successfully logged out')
     return redirect(url_for('.root'))
 
-@app.route("/secret/")
-@requires_login
-def secret():
-    return "Secret Page"
+
 
 
 #LOGGING
