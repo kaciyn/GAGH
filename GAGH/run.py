@@ -149,7 +149,7 @@ def check_auth(email, password):
     if(result==False):
         app.logger.error('User '+email+' not found')
         return False
-    else if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
+    elif (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
         app.logger.info('Correct password for user '+email)
         return True
     else:
