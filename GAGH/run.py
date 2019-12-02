@@ -158,14 +158,15 @@ def check_auth(email, password):
         return False
 
 def get_user(email):
-   # try:
-    result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
-    app.logger.info('Successfully retrieved user '+result[0])
-    app.logger.info('Result length: '+result.len()
-   # except sql.Error as error:
-    #    app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
-   # finally:
-    return result
+    try:
+        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
+        app.logger.info('Successfully retrieved user '+result[0])
+        app.logger.info('Result length: '+result.len())
+    
+    except sql.Error as error:
+        app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
+    finally:
+        return result
 
 
 @app.route('/logout/')
