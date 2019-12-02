@@ -98,9 +98,9 @@ def newuser():
         #if user doesn't already exist
         if get_user(email)==False:
             try:
-                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = '"+email+"'")
+                db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",[email])
                 result=db.cursor().fetchall
-                app.logger.info('Successfully retrieved user')
+                app.logger.info('Successfully retrieved user '+email)
 
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name'].strip()
@@ -109,10 +109,10 @@ def newuser():
                 db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
-                app.logger.info('Successfully added user to db')
+                app.logger.info('Successfully added user '+email+' to db')
             except sql.Error as error:
                 db.rollback()
-                app.logger.error("Error in user insert operation: "+str(error))     
+                app.logger.error('Error in user '+email+' insert operation: '+str(error))     
             finally:
                 user_login(email,password)
         else:
@@ -132,7 +132,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email'].lower().strip()
         password = request.form['password'].strip()
-        app.logger.info("Email: "+email)
+        app.logger.info("Login requested for: "+email)
         user_login(email,password)
         return
   
@@ -148,18 +148,14 @@ def check_auth(email, password):
     result=get_user(email)
 
     if(result==False):
-        app.logger.error("User not found")
+        app.logger.error('User '+email+' not found')
         return False
-    if(email == result.email):
-        if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
-            return True
-        else:
-            app.logger.error("Wrong password")
-            return False
+    else if (result.hash_password == bcrypt.hashpw(password.encode('utf-8'), result.hash_password)):
+        app.logger.info('Correct password for user '+email)
+        return True
     else:
-        app.logger.error("User not found")
+        app.logger.error('Wrong password for user '+email)
         return False
-  
 
 def get_user(email):
     db = get_db()
@@ -168,11 +164,11 @@ def get_user(email):
     result=False
 
     try:
-        db.cursor().execute("SELECT email,hash_password FROM User WHERE email ='"+email+"'")
+        db.cursor().execute("SELECT email,hash_password FROM User WHERE email = ?",[email])
         result=db.cursor().fetchall
-        app.logger.info('Successfully retrieved user')
+        app.logger.info('Successfully retrieved user '+result.email)
     except sql.Error as error:
-        app.logger.error("Error retrieving user/user not found: "+str(error))
+        app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
     finally:
         return result
 
