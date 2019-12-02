@@ -60,7 +60,7 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            query_db('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
+            db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
 
             db.commit()
             app.logger.info('Successfully committed review to db')
@@ -100,8 +100,10 @@ def newuser():
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name'].strip()
                 location = request.form['location'].strip()
+                
+                db = get_db()
 
-                query_db("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
+                db.cursor().execute("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
                 app.logger.info('Successfully added user '+result['email']+' to db')
