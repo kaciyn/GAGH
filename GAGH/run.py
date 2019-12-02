@@ -1,10 +1,5 @@
-import sys
-import os
-import sqlite3 as sql,configparser
-import logging
+import sys,os,sqlite3 as sql,configparser,logging,time,bcrypt
 from datetime import datetime
-import time
-import bcrypt
 
 from flask import Flask,g,render_template,request, url_for,session, redirect
 from logging.handlers import RotatingFileHandler
@@ -17,6 +12,16 @@ app.secret_key=os.urandom(24)
 
 db_location='var/GAGH.db'
 html_location='static/html/'
+
+#requires login decorator, copied wholesale from workbook
+def requires_login(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        status = session.get('logged_in', False)
+        if not status:
+            return redirect(url_for('.root'))
+        return f(*args, **kwargs)
+    return decorated
 
 #PAGES
 @app.route('/')
@@ -170,16 +175,6 @@ def get_user(email):
         app.logger.error("Error retrieving user/user not found: "+str(error))
     finally:
         return result
-
-
-def requires_login(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        status = session.get('logged_in', False)
-        if not status:
-            return redirect(url_for('.root'))
-        return f(*args, **kwargs)
-    return decorated
 
 @app.route('/logout/')
 def logout():
