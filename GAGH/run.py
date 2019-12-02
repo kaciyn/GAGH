@@ -30,12 +30,12 @@ def root():
 
 #SUBMIT
 @app.route("/submit/")
-@requires_login
+#@requires_login
 def new_review():
    return render_template('submit.html')
     
 @app.route('/submit/submit-review/',methods = ['POST', 'GET'])
-@requires_login
+#@requires_login
 def submit_review():
     db = get_db()
     if request.method == 'POST':
@@ -98,9 +98,6 @@ def newuser():
         #if user doesn't already exist
         if get_user(email)==False:
             try:
-                result=query_db('SELECT email,hash_password FROM User WHERE email = ?',[email],one=True)
-                app.logger.info('Successfully retrieved user '+email)
-
                 hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
                 name = request.form['name'].strip()
                 location = request.form['location'].strip()
@@ -108,11 +105,11 @@ def newuser():
                 query_db("INSERT INTO User (email,hash_password,name,location) VALUES (?,?,?,?)",(email,hash_password,name,location) )
 
                 db.commit()
-                app.logger.info('Successfully added user '+email+' to db')
+                app.logger.info('Successfully added user '+result['email']+' to db')
 
                 user_login(email,password)
 
-                return render_template('.newusersuccess')
+                return redirect(url_for('.newusersuccess')
 
             except sql.Error as error:
                 db.rollback()
@@ -165,10 +162,9 @@ def check_auth(email, password):
 
 def get_user(email):
     db = get_db()  
-
     try:
         result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email])
-        app.logger.info('Successfully retrieved user '+result.email)
+        app.logger.info('Successfully retrieved user '+result['email'])
         return result
     except sql.Error as error:
         app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
