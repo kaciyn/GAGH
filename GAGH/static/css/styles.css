@@ -101,11 +101,11 @@ body,
     height: 530px;
     width: 550px;
     position: relative;
+    border: 3px;
+    border-style: solid;
 }
 
 .iframe map {
-    border: 3px;
-    border-style: solid;
     height: 100%;
     left: 0;
     position: absolute;
