@@ -3,15 +3,14 @@
 <h2 style="text-align:center; font-weight:lighter"> Want to go to a barber? Anxious about it because you're not a cis man? </h2>
 <h3 style="text-align:center; font-weight:lighter">Find a safe place to get a haircut!</h3>
 
-<!--from https://stackoverflow.com/questions/37692267/wrapping-an-image-in-a-link-in-a-bootstrap-row -->
-<div class="container-fluid">
-    <div class="jumbotron">
+<div class="container">
+    <div class="jumbotron linkstrip">
         <div class="row vertical-align">
             <div class="col-xs-4">
                 <div class="linkContainer">
                     <a href="/submit/" title="" class="linkA">
-                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}">
-                        <div class="linkText">Submit</div>
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Submit A Review</div>
                     </a>
                 </div>
             </div>
@@ -35,7 +34,7 @@
                 <div class="linkContainer">
                     <a href="/faq/" title="" class="linkA">
                         <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
-                        <div class="linkText">Advice &amp;Terminology</div>
+                        <div class="linkText">Terminology &amp; Advice</div>
                     </a>
                 </div>
             </div>
