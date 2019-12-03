@@ -117,25 +117,28 @@ body,
         float: none;
     }
 
+.jumbotron linkstrip {
+    min-width: 975px;
+}
+
 .linkContainer {
     position: relative;
     text-align: center;
 }
 
 .linkImg {
-    width: 196px;
-    height: 363px;
+    width: 195px;
+    height: 360px;
 }
 
 .linkA {
     border: 0;
     border-radius: 0;
-    padding: 20px 35px;
 }
 
 .linkText {
     text-decoration: none;
-    color: red;
+    color: darkgray;
     font-size: 25px;
     text-transform: uppercase;
     font-family: Arial, Helvetica, sans-serif;
@@ -147,40 +150,6 @@ body,
 }
 
 
-/* Container holding the image and the text */
-.container {
-    position: relative;
-    text-align: center;
-    color: white;
-}
-
-/* Bottom left text */
-.bottom-left {
-    position: absolute;
-    bottom: 8px;
-    left: 16px;
-}
-
-/* Top left text */
-.top-left {
-    position: absolute;
-    top: 8px;
-    left: 16px;
-}
-
-/* Top right text */
-.top-right {
-    position: absolute;
-    top: 8px;
-    right: 16px;
-}
-
-/* Bottom right text */
-.bottom-right {
-    position: absolute;
-    bottom: 8px;
-    right: 16px;
-}
 
 /* Centered text */
 .centered {

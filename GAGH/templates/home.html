@@ -8,30 +8,49 @@
     <div class="jumbotron">
         <div class="row vertical-align">
             <div class="col-xs-4">
-                <a href="/submit/" title="" class="linkA"><img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}"><div class="linkText">Submit</div></a>
+                <div class="linkContainer">
+                    <a href="/submit/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}">
+                        <div class="linkText">Submit</div>
+                    </a>
+                </div>
             </div>
             <div class="col-xs-4">
-                <a href="/barbershops/" title="" class="linkA"><img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}"><div class="linkText">Barbershops</div></a>
+                <div class="linkContainer">
+                    <a href="/barbershops/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Barbershops</div>
+                    </a>
+                </div>
             </div>
             <div class="col-xs-4">
-                <a href="/reviews/" title="" class="linkA"><img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}"><div class="linkText">Reviews</div></a>
+                <div class="linkContainer">
+                    <a href="/reviews/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Reviews</div>
+                    </a>
+                </div>
             </div>
             <div class="col-xs-4">
-                <a href="/faq/" title="" class="linkA"> <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}"><div class="linkText">Advice &amp;Terminology</div></a>
+                <div class="linkContainer">
+                    <a href="/faq/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Advice &amp;Terminology</div>
+                    </a>
+                </div>
             </div>
             <div class="col-xs-4">
-                <a href="/about/" title="" class="linkA"><img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}"><div class="linkText">About</div></a>
+                <div class="linkContainer">
+
+                    <a href="/about/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">About</div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <img src="{{ url_for('static',filename='marble.jpg') }}" alt="Snow" style="width:100%;">
-        <div class="bottom-left">Bottom Left</div>
-        <div class="top-left">Top Left</div>
-        <div class="top-right">Top Right</div>
-        <div class="bottom-right">Bottom Right</div>
-        <div class="centered">Centered</div>
-    </div>
+
 </div>
-{%endblock%}}
+    {%endblock%}}
