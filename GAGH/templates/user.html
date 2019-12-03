@@ -1,14 +1,11 @@
 ﻿{%extends 'base.html'%}
 {%block content%}
 
-<form name="user_form" action="/user-update/" method="get">
-    Edit User Details
-    <input type="text" placeholder="Name" name="name">
-    <input type="text" placeholder="Location" name="location">
-    <input type="password" placeholder="Password" name="password">
-    <button type="submit" class="btn" name="button" value="login">
-        Update Details
-    </button>
+<div class="card">
+    <h1>{{user['name']}}</h1>
+    <p label="Email" class="email">{{user['email']}}</p>
+    <p> label="Location" {{user['location']}}</p>
 
-</form>
+</div>
+
 {%endblock%}}

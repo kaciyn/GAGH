@@ -26,23 +26,33 @@ def requires_login(f):
 #PAGES
 @app.route('/')
 def root():
-	return render_template('base.html'),200
+    #need to fix routing for this later
+    login_status='Not logged in'
+    if session['logged_in'] = True:
+        login_status='Logged in as:'+session['user_name']
+        
+	return render_template('base.html',login_status),200
 
 #SUBMIT
 @app.route("/submit/")
-#@requires_login
+@requires_login
 def new_review():
-   return render_template('submit.html')
+   return render_template('submit.html',map='/templates/map.html')
     
 @app.route('/submit/submit-review/',methods = ['POST', 'GET'])
-#@requires_login
+@requires_login
 def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-            reviewer_id = request.form.get('reviewer_id')
+            #placeholder til i figure out a way to get gmaps to send me shit
+            barbershop_id='sdjkfhs'
+            barbershop_name='Stag Barbers'
+            barbershop_address='22 Lady Lawson St, Edinburgh EH3 9DS'
 
-            barbershop_id = request.form.get('barbershop_id')
+            reviewer_id = session['user']
+
+            #barbershop_id = request.form.get('barbershop_id')
             date_visited = int(request.form.get('date_visited').replace('-',''))
 
             date_added = int(round(time.time() * 1000))
@@ -62,13 +72,20 @@ def submit_review():
             
             db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
 
+            #if the barbershop is new
+            if query_db("SELECT placeID FROM User WHERE placeID = ?",[barbershop_id],one=True) is None:
+                db.cursor().execute('INSERT INTO Barbershop (placeID,name,address) VALUES (?,?,?)',(barbershop_id,barbershop_name,barbershop_address))
+
             db.commit()
             app.logger.info('Successfully committed review to db')
         except sql.Error as error:
             db.rollback()
             app.logger.error("Error in insert operation: "+str(error))     
         finally:
+           flash('Review submitted!') 
            return list()
+
+
 
 def list():
     db = get_db()
@@ -123,6 +140,17 @@ def newuser():
 def newusersuccess():
     return render_template('newusersuccess.html')
 
+def get_user(email):
+    try:
+        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
+        app.logger.info('Successfully retrieved user '+result['email'])
+        app.logger.info('Result length: '+result.len())
+    
+    except sql.Error as error:
+        app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
+    finally:
+        return result
+
 @app.route('/login/',methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -137,10 +165,11 @@ def user_login(email,password):
     app.logger.info('Email passed to user login: '+email)
     if check_auth(email,password):
         session['logged_in'] = True
-        
+        session['user']=email
+
         flash('Successfully logged in')
 
-        return redirect(url_for('.user'))
+        return user()
     else:
         return redirect(url_for('.root'))
 
@@ -161,22 +190,18 @@ def check_auth(email, password):
         app.logger.error('Wrong password for user '+email)
         return False
 
-def get_user(email):
-    try:
-        result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
-        app.logger.info('Successfully retrieved user '+result['email'])
-        app.logger.info('Result length: '+result.len())
-    
-    except sql.Error as error:
-        app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
-    finally:
-        return result
+
 
 
 @app.route('/user/')
 @requires_login
 def user():
-    return render_template('user.html')
+    user=query_db("SELECT email,name,location FROM User WHERE email = ?",[session['user'],one=True)
+    
+    if session['user_name'] is None:
+        session['user_name']=user['name']
+
+    return render_template('user.html',user=user)
 
 
 @app.route('/logout/')
@@ -184,8 +209,6 @@ def logout():
     session['logged_in'] = False
     flash('Successfully logged out')
     return redirect(url_for('.root'))
-
-
 
 
 #LOGGING

@@ -97,5 +97,10 @@ body,
 
 .dropdownMenuItem {
     text-decoration: none;
-    color: black
+    color: black;
+}
+
+.map {
+    height: 531px;
+    width: 552px;
 }
