@@ -54,7 +54,6 @@ body,
 
 .title {
     font-size: 33px;
-    text-align: center;
     line-height: 1.2em;
     font-weight: bold;
     letter-spacing: 0.3em;
@@ -68,7 +67,6 @@ body,
 }
 
 .titleBorder {
-    position: center;
     border-color: black;
     border-style: solid;
     /*border-top-style: solid;
@@ -101,11 +99,18 @@ body,
 .map {
     max-height: 530px;
     max-width: 550px;
+    overflow: hidden;
+    padding-top: 75%;
+    position: relative;
 }
 
 .iframe map {
-    width: 100%;
+    border: 0;
     height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 
@@ -122,9 +127,9 @@ body,
         float: none;
     }
 
-.jumbotron .linkstrip {
+.linkstrip {
+    margin-bottom: 30px;
     min-width: 975px;
-    padding: unset;
 }
 
 .linkContainer {
