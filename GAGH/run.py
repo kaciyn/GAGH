@@ -28,10 +28,9 @@ def requires_login(f):
 def root():
     #need to fix routing for this later
     login_status='Not logged in'
-    if session['logged_in'] = True:
+    if session.get('logged_in',None):
         login_status='Logged in as:'+session['user_name']
-        
-	return render_template('base.html',login_status),200
+    return render_template('base.html',login_status=login_status),200
 
 #SUBMIT
 @app.route("/submit/")
@@ -196,9 +195,12 @@ def check_auth(email, password):
 @app.route('/user/')
 @requires_login
 def user():
-    user=query_db("SELECT email,name,location FROM User WHERE email = ?",[session['user'],one=True)
+    user=query_db("SELECT email,name,location FROM User WHERE email = ?",[session['user']],one=True)
     
-    if session['user_name'] is None:
+    if user is None:
+        return redirect(url_for('.root'))
+
+    if session.get('user_name', None) is None:
         session['user_name']=user['name']
 
     return render_template('user.html',user=user)
@@ -262,7 +264,7 @@ def init(app):
 
     except:
         app.logger.error ("Could not read configs from: ", config_location)
-
+    
 
 
 init(app)
