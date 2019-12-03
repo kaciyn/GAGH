@@ -38,7 +38,7 @@ def root():
 @app.route("/submit/")
 @requires_login
 def new_review():
-   return render_template('submit.html',map='/templates/map.html')
+   return render_template('submit.html')
     
 @app.route('/submit/submit-review/',methods = ['POST', 'GET'])
 @requires_login
