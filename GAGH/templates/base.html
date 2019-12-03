@@ -45,19 +45,24 @@
             <div class="Search">
                 <a href="/user/">{{login_status}}</a>
                 <form name="login_form" action="/login/" method="post">
+                    <div class="form-row">
+                        <input type="email" placeholder="Email" name="email">
+                        <input type="password" placeholder="Password" name="password">
+                        <button type="submit" class="btn" name="button" value="login">
+                            Sign In
+                        </button>
+                        <button type="submit" class="btn" name="button" value="logout" action="/logout/">
+                            Log Out
+                        </button>
+                    </div>
 
-                    <input type="email" placeholder="Email" name="email">
-                    <input type="password" placeholder="Password" name="password">
-                    <button type="submit" class="btn" name="button" value="login">
-                        Sign In
-                    </button>
+                    <div class="form-row">
 
-                    <button href="/register/" class="btn" name="button" value="register" action="/register/">
-                        Register
-                    </button>
-                    <button type="submit" class="btn" name="button" value="logout" action="/logout/">
-                        Log Out
-                    </button>
+                        <button href="/register/" class="btn btn-dark" name="button" value="register" action="/register/">
+                            Register
+                        </button>
+                    </div>
+
 
                 </form>
             </div>
