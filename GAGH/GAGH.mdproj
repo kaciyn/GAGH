@@ -331,7 +331,7 @@
     <None Include="templates\useredit.html" />
     <None Include="templates\comingsoon.html" />
     <None Include="templates\home.html" />
-    <None Include="about.html" />
+    <None Include="templates\about.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
