@@ -7,7 +7,7 @@ body,
 .grid-container {
     display: grid;
     grid-template-columns: 0.2fr 1fr 0.2fr;
-    grid-template-rows: 0.1fr 0.25fr 1fr 0.1fr;
+    grid-template-rows: 0.05fr 0.25fr 1fr 0.05fr;
     grid-template-areas: "Top-Padding Top-Padding Top-Padding" "Header Header Header" "LPadding Content RPadding" "Footer Footer Footer";
     grid-gap: 1.5em;
 }
@@ -98,9 +98,9 @@ body,
 }
 
 .map {
-    height: 100%;
-    width: 75%;
-    min-width: 45%;
+    height: 75%;
+    width: 100%;
+    min-width: 100%;
     position: relative;
     border: 3px;
     border-style: solid;
@@ -110,10 +110,10 @@ body,
     border: none;
     box-shadow: none;
     height: 100%;
+    width: 100%;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
 }
 
 
@@ -141,8 +141,8 @@ body,
 }
 
 .linkImg {
-    width: 20%;
-    height: 100%;
+    width: 190px;
+    height: 360px;
 }
 
 .linkA {
@@ -160,4 +160,17 @@ body,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+
+.tint:hover:before {
+    background: none;
+}
+
+.t2:before {
+    background: rgba(247, 168, 184, 0.4);
+}
+
+.t3:before {
+    background: rgba(85, 205, 252, 0.4);
 }
