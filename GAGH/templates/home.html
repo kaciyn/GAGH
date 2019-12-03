@@ -1,26 +1,26 @@
 ﻿{%extends 'base.html'%}
 {% block content %}
-<h1>Want to go to a barber? Anxious about it because you're not a cis man? </h1>
-<h2>Find a safe place to get a haircut!</h2>
+<h2 style="text-align:center"> Want to go to a barber? Anxious about it because you're not a cis man? </h2>
+<h3 style="text-align:center">Find a safe place to get a haircut!</h3>
 
 <!--from https://stackoverflow.com/questions/37692267/wrapping-an-image-in-a-link-in-a-bootstrap-row -->
 <div class="container-fluid">
     <div class="jumbotron">
         <div class="row vertical-align">
             <div class="col-xs-4">
-                <a href="/submit/" title="Submit"><img src="{{ url_for('static',filename='marble.jpg') }}" class="img-responsive"></a>
+                <a href="/submit/" title="Submit" class="linkA">Submit<img src="{{ url_for('static',filename='marble.jpg') }}" class="linkImg"></a>
             </div>
             <div class="col-xs-4">
-                <a href="/barbershops/" title=""><img src="{{ url_for('static',filename='marble.jpg') }}" class="img-responsive"></a>
+                <a href="/barbershops/" title="" class="linkA">Barbershops<img src="{{ url_for('static',filename='marble.jpg') }}" class="linkImg"></a>
             </div>
             <div class="col-xs-4">
-                <a href="/reviews/" title=""><img src="{{ url_for('static',filename='marble.jpg') }}" class="img-responsive"></a>
+                <a href="/reviews/" title="" class="linkA">Reviews<img src="{{ url_for('static',filename='marble.jpg') }}" class="linkImg"></a>
             </div>
             <div class="col-xs-4">
-                <a href="/faq/" title=""><img src="{{ url_for('static',filename='marble.jpg') }}" class="img-responsive"></a>
+                <a href="/faq/" title="" class="linkA">Advice &amp; Terminology<img src="{{ url_for('static',filename='marble.jpg') }}" class="linkImg"></a>
             </div>
             <div class="col-xs-4">
-                <a href="/about/" title=""><img src="{{ url_for('static',filename='marble.jpg') }}" class="img-responsive"></a>
+                <a href="/about/" title="" class="linkA">About<img src="{{ url_for('static',filename='marble.jpg') }}" class="linkImg"></a>
             </div>
         </div>
     </div>

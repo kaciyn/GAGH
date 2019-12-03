@@ -11,29 +11,13 @@
         <div class="col-md-6">
             <h3 class="h3" name="content-heading">Add a Review</h3>
 
-            <div class="map"><iframe src="{{map}}"></iframe></div>
+            <div class="map"><iframe src="{{ url_for('templates',filename='map.html') }}"></iframe></div>
 
 
         </div>
         <div class="col-md-6">
             <div class="container">
                 <div class="form-group">
-                    <h4 class="h4" name="content-heading">
-                        <span style="font-family:open sans,sans-serif;">Barbershop ID </span>
-                    </h4>
-                    <div class="form-group row">
-                        <div class="col-10">
-                        </div>
-                    </div>
-
-                    <h4 class="h4" name="content-heading">
-                        <span style="font-family:open sans,sans-serif;">User </span>
-                    </h4>
-                    <div class="form-group row">
-                        <div class="col-10">
-                            <input class="form-control" type="text" placeholder="user email..." name="reviewer_id">
-                        </div>
-                    </div>
 
                     <h4 class="h4" name="content-heading">
                         <span style="font-family:open sans,sans-serif;">When did you go? </span>

@@ -83,8 +83,13 @@ def submit_review():
             db.rollback()
             app.logger.error("Error in insert operation: "+str(error))     
         finally:
-           flash('Review submitted!') 
-           return list()
+            flash('Review submitted!') 
+            return redirect(url_for('.review_submitted'))
+
+@app.route('/submit/review-submitted/')
+@requires_login
+def review_submitted():
+    return render_template('review-submitted.html')
 
 
 
@@ -203,7 +208,6 @@ def user():
         session['user_name']=user['name']
 
     return render_template('user.html',user=user)
-
 
 @app.route('/logout/')
 def logout():
