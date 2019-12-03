@@ -329,6 +329,9 @@
     <None Include="templates\newusersuccess.html" />
     <None Include="templates\mapbare.html" />
     <None Include="templates\useredit.html" />
+    <None Include="templates\comingsoon.html" />
+    <None Include="templates\home.html" />
+    <None Include="about.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />

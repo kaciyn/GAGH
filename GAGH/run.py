@@ -2,6 +2,7 @@ import sys,os,sqlite3 as sql,configparser,logging,time,bcrypt
 from datetime import datetime
 
 from flask import Flask,g,render_template,request, url_for,session, redirect, flash
+# you need to uh actually. flash the messages
 from logging.handlers import RotatingFileHandler
 from functools import wraps
 
@@ -26,11 +27,12 @@ def requires_login(f):
 #PAGES
 @app.route('/')
 def root():
-    #need to fix routing for this later
-    login_status='Not logged in'
-    if session.get('logged_in',None):
-        login_status='Logged in as:'+session['user_name']
-    return render_template('base.html',login_status=login_status),200
+    # need to figure out how to render this on Every one as i'm never just using the base template
+    # login_status='Not logged in'
+    # if session.get('logged_in',None):
+    #     login_status='Logged in as: '+session['user_name']
+    #return render_template('base.html',login_status=login_status),200
+    return render_template('home.html'),200
 
 #SUBMIT
 @app.route("/submit/")
@@ -189,9 +191,6 @@ def check_auth(email, password):
         app.logger.error('Wrong password for user '+email)
         return False
 
-
-
-
 @app.route('/user/')
 @requires_login
 def user():
@@ -211,6 +210,23 @@ def logout():
     session['logged_in'] = False
     flash('Successfully logged out')
     return redirect(url_for('.root'))
+
+
+@app.route('/barbershops/')
+def barbershops():
+    return render_template('comingsoon.html')
+
+@app.route('/reviews/')
+def reviews():
+    return render_template('comingsoon.html')
+
+@app.route('/faq/')
+def faq():
+    return render_template('comingsoon.html')
+
+@app.route('/about/')
+def about():
+    return render_template('about.html')
 
 
 #LOGGING
