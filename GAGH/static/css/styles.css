@@ -62,11 +62,12 @@ body,
 }
 
 .htitle {
-    align-content: center;
+    display: inline-block;
     width: 400px;
 }
 
 .titleBorder {
+    text-align: center;
     border-color: black;
     border-style: solid;
     /*border-top-style: solid;
@@ -97,15 +98,14 @@ body,
 }
 
 .map {
-    max-height: 530px;
-    max-width: 550px;
-    overflow: hidden;
-    padding-top: 75%;
+    height: 530px;
+    width: 550px;
     position: relative;
 }
 
 .iframe map {
-    border: 0;
+    border: 3px;
+    border-style: solid;
     height: 100%;
     left: 0;
     position: absolute;
