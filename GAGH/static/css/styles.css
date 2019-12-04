@@ -139,18 +139,18 @@ body,
     text-align: center;
 }
 
-
-.linkImgBlue {
+.linkImg {
     width: 190px;
     height: 360px;
-    -webkit-filter: sepia(1) saturate(3.5) hue-rotate(175deg) brightness(66%) contrast(300%)
 }
 
-.linkImgPink {
-    width: 190px;
-    height: 360px;
-    -webkit-filter: sepia(1) saturate(1.8) hue-rotate(280deg) brightness(66%) contrast(300%)
-}
+    .linkImg blue {
+        filter: sepia(1) saturate(3.5) hue-rotate(175deg) brightness(66%) contrast(300%)
+    }
+
+    .linkImg pink {
+        filter: sepia(1) saturate(1.8) hue-rotate(280deg) brightness(66%) contrast(300%)
+    }
 
 .linkA {
     border: 0;
