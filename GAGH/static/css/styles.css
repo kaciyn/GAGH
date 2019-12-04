@@ -181,7 +181,3 @@ body,
     .reviewList text {
         font-size: medium
     }
-
-input[type="checkbox"][readonly] {
-    pointer-events: none;
-}
