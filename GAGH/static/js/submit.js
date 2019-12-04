@@ -10,7 +10,7 @@
 });
 
 //checkbox hack
-if (document.getElementById("testName").checked) {
+if (document.getElementById("gender_remarks").checked) {
     document.getElementById('gender_remarksHidden').disabled = true;
 }
 if (document.getElementById("gender_charged").checked) {
