@@ -63,7 +63,7 @@ def submit_review():
 
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
-            #pricerange = request.form.get('price')
+            pricerange = request.form.get('price')
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
@@ -81,34 +81,23 @@ def submit_review():
 
             db.commit()
             app.logger.info('Successfully committed review for '+barbershop_name+' to db')
-        except sql.Error as error:
-            db.rollback()
-            app.logger.error("Error in insert operation: "+str(error))     
-        finally:
             flash('Review submitted!') 
             return redirect(url_for('.review_submitted'))
+        except sql.Error as error:
+            db.rollback()
+            app.logger.error("Error in insert operation: "+str(error))   
+            return redirect(url_for('.submit_error'))
+     
 
 @app.route('/submit/review-submitted/')
 @requires_login
 def review_submitted():
     return render_template('review-submitted.html')
 
-
-
-def list():
-    db = get_db()
-
-    page = []
-    page.append('<html><ul>')
-    sql = "SELECT * FROM Review ORDER BY barbershop_id"
-    for row in db.cursor().execute(sql):
-        page.append('<li>')
-        page.append(str(row))
-        page.append('</li>')
-        page.append('</ul><html>')
-    return ''.join(page)
-
-
+@app.route('/submit/error/')
+@requires_login
+def submit_error():
+    return render_template('submit-error.html')
 
 
 #USER LOGINS, partially adapted from workbook
@@ -179,9 +168,7 @@ def user_login(email,password):
 
         flash('Successfully logged in')
 
-        return user()
-    else:
-        return redirect(url_for('.root'))
+    return redirect(url_for('.root'))
 
 
 def check_auth(email, password):
@@ -224,7 +211,7 @@ def logout():
 def barbershops():
     #selects barbershop infos 
 
-    barbershops=query_db(" SELECT b.placeID, b.name, b.address, b.known_friendly, AVG(r.haircut_rating) AS haircut_rating_average, AVG(r.anxiety_rating) AS anxiety_rating_average, AVG(r.friendliness_rating) AS friendliness_rating_average, SUM(r.unsafe) AS unsafe_sum, SUM(r.gender_remarks) AS gender_remarks_sum, SUM(r.gender_charged) AS gender_charged_sum, COUNT(*) AS review_count FROM Barbershop AS b INNER JOIN Review AS r ON r.barbershop_id = b.placeID GROUP BY b.placeID ORDER BY unsafe_sum ASC")
+    barbershops=query_db(" SELECT b.placeid, b.NAME, b.address, b.known_friendly, Avg(r.haircut_rating) AS haircut_rating_average, Avg(r.anxiety_rating) AS anxiety_rating_average, Avg(r.friendliness_rating) AS friendliness_rating_average, (AVG(r.unsafe)*100) AS unsafe_average, (AVG(r.gender_remarks)*100) AS gender_remarks_average, (AVG(r.gender_charged)*100) AS gender_charged_average, Count(*) AS review_count FROM barbershop AS b INNER JOIN review AS r ON r.barbershop_id = b.placeid GROUP BY b.placeid ORDER BY unsafe_sum ASC")
     return render_template('barbershops.html',barbershops=barbershops)
 
 @app.route('/reviews/')

@@ -334,6 +334,7 @@
     <None Include="templates\barbershops.html" />
     <None Include="templates\reviews.html" />
     <None Include="static\js\submit.js" />
+    <None Include="templates\submit-error.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
