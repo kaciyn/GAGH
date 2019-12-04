@@ -221,8 +221,7 @@ def logout():
 @app.route('/barbershops/')
 def barbershops():
     #selects barbershop infos 
-   barbershops=query_db(" SELECT b.placeID, b.name, b.address, b.known_friendly, AVG(r.haircut_rating) AS haircut_rating_average, AVG(r.anxiety_rating) AS anxiety_rating_average, AVG(r.friendliness_rating) AS friendliness_rating_average, SUM(r.unsafe) AS unsafe_sum, SUM(r.gender_remarks) AS gender_remarks_sum, SUM(r.gender_charged) AS gender_charged_sum, COUNT(r) AS review_count FROM Barbershop b INNER JOIN Review r ON r.barbershop_id = b.placeID GROUP BY b.barbershop_id ORDER BY rating_average DESC")
-   
+    barbershops=query_db(" SELECT b.placeID, b.name, b.address, b.known_friendly, AVG(r.haircut_rating) AS haircut_rating_average, AVG(r.anxiety_rating) AS anxiety_rating_average, AVG(r.friendliness_rating) AS friendliness_rating_average, SUM(r.unsafe) AS unsafe_sum, SUM(r.gender_remarks) AS gender_remarks_sum, SUM(r.gender_charged) AS gender_charged_sum, COUNT(r) AS review_count FROM Barbershop AS b INNER JOIN Review AS r ON r.barbershop_id = b.placeID GROUP BY b.barbershop_id ORDER BY rating_average DESC")
     return render_template('barbershops.html',barbershops)
 
 @app.route('/reviews/')
