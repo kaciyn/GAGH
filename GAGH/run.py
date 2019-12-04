@@ -71,7 +71,8 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
+            db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,gender_remarks,gender_charged,unsafe,pricerange) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe,pricerange))
+
 
             #if the barbershop is new
             if query_db("SELECT placeID FROM Barbershop WHERE placeID = ?",[barbershop_id],one=True) is None:
@@ -211,7 +212,7 @@ def logout():
 def barbershops():
     #selects barbershop infos 
 
-    barbershops=query_db(" SELECT b.placeid, b.NAME, b.address, b.known_friendly, Avg(r.haircut_rating) AS haircut_rating_average, Avg(r.anxiety_rating) AS anxiety_rating_average, Avg(r.friendliness_rating) AS friendliness_rating_average, (AVG(r.unsafe)*100) AS unsafe_average, (AVG(r.gender_remarks)*100) AS gender_remarks_average, (AVG(r.gender_charged)*100) AS gender_charged_average, Count(*) AS review_count FROM barbershop AS b INNER JOIN review AS r ON r.barbershop_id = b.placeid GROUP BY b.placeid ORDER BY unsafe_sum ASC")
+    barbershops=query_db(" SELECT b.placeid, b.NAME, b.address, b.known_friendly, Avg(r.haircut_rating) AS haircut_rating_average, Avg(r.anxiety_rating) AS anxiety_rating_average, Avg(r.friendliness_rating) AS friendliness_rating_average, (AVG(r.unsafe)*100) AS unsafe_average, (AVG(r.gender_remarks)*100) AS gender_remarks_average, (AVG(r.gender_charged)*100) AS gender_charged_average, Count(*) AS review_count FROM barbershop AS b INNER JOIN review AS r ON r.barbershop_id = b.placeid GROUP BY b.placeid ORDER BY unsafe_average ASC")
     return render_template('barbershops.html',barbershops=barbershops)
 
 @app.route('/reviews/')
