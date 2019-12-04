@@ -26,13 +26,22 @@ $(window).load(function () {
 
     //receives currently shown gmaps place & parses into place info
     window.addEventListener("message", receiveMessage, false);
-    function receiveMessage(event) {
-        //if (event.origin !== "http://localhost:5000")
-        //    return;
-        //you definitely need to check for the origin here but how to pass in dynamically? who knows!
 
-        $document.getElementsByName('map')[0].value = event.data.split(";")[0];
-        $document.getElementsByName('map')[0].value = event.data.split(";")[1];
-        $document.getElementsByName('map')[0] = event.data.split(";")[2];
-    };
 })
+
+$(document).ready(function () {
+
+    //receives currently shown gmaps place & parses into place info
+    window.addEventListener("message", receiveMessage, false);
+
+})
+
+function receiveMessage(event) {
+    //if (event.origin !== "http://localhost:5000")
+    //    return;
+    //you definitely need to check for the origin here but how to pass in dynamically? who knows!
+
+    $document.getElementsByName('map')[0].value = event.data.split(";")[0];
+    $document.getElementsByName('map')[0].value = event.data.split(";")[1];
+    $document.getElementsByName('map')[0] = event.data.split(";")[2];
+};
