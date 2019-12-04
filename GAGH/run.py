@@ -63,7 +63,7 @@ def submit_review():
 
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
-            pricerange = request.form.get('price')
+            #pricerange = request.form.get('price')
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
@@ -71,7 +71,7 @@ def submit_review():
             gender_charged = request.form.get('gender_charged')
             unsafe = request.form.get('unsafe')
             
-            db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
+            db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
 
             #if the barbershop is new
             if query_db("SELECT placeID FROM User WHERE placeID = ?",[barbershop_id],one=True) is None:
@@ -105,6 +105,8 @@ def list():
         page.append('</li>')
         page.append('</ul><html>')
     return ''.join(page)
+
+
 
 
 #USER LOGINS, partially adapted from workbook
@@ -218,7 +220,9 @@ def logout():
 
 @app.route('/barbershops/')
 def barbershops():
-    return render_template('comingsoon.html')
+    #selects barbershop infos 
+    barbershops=query_db(" SELECT b.placeID, b.name, b.address, b.known_friendly, AVG(r.haircut_rating) AS haircut_rating_average, AVG(r.anxiety_rating) AS anxiety_rating_average, AVG(r.friendliness_rating) AS friendliness_rating_average, AVG(haircut_rating_average,anxiety_rating_average,friendliness_rating_average) AS rating_average, SUM(r.unsafe) AS unsafe_sum, SUM(r.gender_remarks) AS gender_remarks_sum, SUM(r.gender_charged) AS gender_charged_sum, COUNT(r) AS review_count, FROM Barbershop b INNER JOIN reviews r ON r.barbershop_id = b.placeID GROUP BY b.barbershop_id ORDER BY rating_average DESC")
+    return render_template('barbershops.html',barbershops)
 
 @app.route('/reviews/')
 def reviews():

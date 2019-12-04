@@ -318,7 +318,6 @@
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <None Include="static\themes\startbootstrap-new-age-gh-pages\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
-    <None Include="templates\map.html" />
     <None Include="templates\review-submitted.html" />
     <None Include="templates\base.html" />
     <None Include="templates\list.html" />
@@ -334,6 +333,7 @@
     <None Include="templates\about.html" />
     <None Include="templates\barbershops.html" />
     <None Include="templates\reviews.html" />
+    <None Include="static\js\submit.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
