@@ -48,9 +48,9 @@ def submit_review():
         try:
             app.logger.info('Barbershop id received: '+request.form.get('placeID'))
             #placeholder til i figure out a way to get gmaps to send me shit
-            barbershop_id='sdjkfhs'
-            barbershop_name='Stag Barbers'
-            barbershop_address='22 Lady Lawson St, Edinburgh EH3 9DS'
+            barbershop_id=request.form.get('placeID')
+            barbershop_name=request.form.get('name')
+            barbershop_address=request.form.get('address')
 
             reviewer_id = session['user']
 
@@ -64,7 +64,7 @@ def submit_review():
 
             anxiety_rating = request.form.get('anxiety')
             friendliness_rating = request.form.get('friendliness')
-            pricerange = request.form.get('price')
+            pricerange = request.form.get('price') or 0
             # barber_id = request.form.get('barber_id')
             # barber_recommended = request.form.get('barber_recommended')
             gender_remarks = request.form.get('gender_remarks')
