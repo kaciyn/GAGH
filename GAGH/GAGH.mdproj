@@ -335,6 +335,8 @@
     <None Include="templates\reviews.html" />
     <None Include="static\js\submit.js" />
     <None Include="templates\submit-error.html" />
+    <None Include="static\map.html" />
+    <None Include="static\js\working wix jsesque script.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="var\" />
