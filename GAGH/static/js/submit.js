@@ -8,7 +8,7 @@
 
     });
 });
-
+$(document).ready(function () {
 //checkbox hack
 if (document.getElementById("gender_remarks").checked) {
     document.getElementById('gender_remarksHidden').disabled = true;
