@@ -18,7 +18,8 @@ if (document.getElementById("gender_charged").checked) {
 }
 if (document.getElementById("unsafe").checked) {
     document.getElementById('unsafeHidden').disabled = true;
-}
+}})
+
 //receives currently shown gmaps place & parses into place info
 
 $(document).ready(function () {
@@ -32,3 +33,12 @@ $(document).ready(function () {
     });
 })
 
+window.addEventListener("message", receiveMessage, false);
+function receiveMessage(event) {
+    if (event.origin !== "/submit/")
+        return;
+
+    $document.getElementsByName('map')[0].value = event.data.split(";")[0];
+    $document.getElementsByName('map')[0].value = event.data.split(";")[1];
+    $document.getElementsByName('map')[0] = event.data.split(";")[2];
+};
