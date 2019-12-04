@@ -8,40 +8,43 @@
 
     });
 });
-
 $(document).ready(function () {
-    //checkbox hack
-    if (document.getElementById("gender_remarks").checked) {
-        document.getElementById('gender_remarksHidden').disabled = true;
-    }
-    if (document.getElementById("gender_charged").checked) {
-        document.getElementById('gender_chargedHidden').disabled = true;
-    }
-    if (document.getElementById("unsafe").checked) {
-        document.getElementById('unsafeHidden').disabled = true;
-    }
-})
+//checkbox hack
+if (document.getElementById("gender_remarks").checked) {
+    document.getElementById('gender_remarksHidden').disabled = true;
+}
+if (document.getElementById("gender_charged").checked) {
+    document.getElementById('gender_chargedHidden').disabled = true;
+}
+if (document.getElementById("unsafe").checked) {
+    document.getElementById('unsafeHidden').disabled = true;
+}})
 
-$(window).load(function () {
-
-    //receives currently shown gmaps place & parses into place info
-    window.addEventListener("message", receiveMessage, false);
-
-})
-
+//receives currently shown gmaps place & parses into place info
 $(document).ready(function () {
-
-    //receives currently shown gmaps place & parses into place info
-    window.addEventListener("message", receiveMessage, false);
-
-})
+window.addEventListener("message", receiveMessage, false);})
 
 function receiveMessage(event) {
-    //if (event.origin !== "http://localhost:5000")
-    //    return;
-    //you definitely need to check for the origin here but how to pass in dynamically? who knows!
+    if (event.isTrusted==true){
+        if (event.data==""){
+            return;
+        }
+        console.log(event.data)
 
-    $document.getElementsByName('map')[0].value = event.data.split(";")[0];
-    $document.getElementsByName('map')[0].value = event.data.split(";")[1];
-    $document.getElementsByName('map')[0] = event.data.split(";")[2];
-};
+        var barbershop_data=event.data.split(";");
+        var name=barbershop_data[0];
+        var address=barbershop_data[1];
+        var id=barbershop_data[2];
+
+        console.log(id)
+        console.log(name)
+        console.log(address)
+
+        document.getElementsByName('placeID')[0].value = id;
+        document.getElementsByName('name')[0].value = name;
+        document.getElementsByName('address')[0].value = address;
+    }
+    else{
+        return
+    }
+    };

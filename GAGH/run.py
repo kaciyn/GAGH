@@ -46,7 +46,7 @@ def submit_review():
     db = get_db()
     if request.method == 'POST':
         try:
-            app.logger.info('Barbershop id received: '+request.form.get('barbershop_id'))
+            app.logger.info('Barbershop id received: '+request.form.get('placeID'))
             #placeholder til i figure out a way to get gmaps to send me shit
             barbershop_id='sdjkfhs'
             barbershop_name='Stag Barbers'
