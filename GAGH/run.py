@@ -204,7 +204,9 @@ def user():
 @app.route('/logout/')
 def logout():
     session['logged_in'] = False
-    flash('Successfully logged out')
+    session['user']= None
+    session['user_name']= None
+    app.logger.info('Logged out')
     return redirect(url_for('.root'))
 
 
