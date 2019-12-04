@@ -168,3 +168,20 @@ body,
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+.reviewList {
+    color: black;
+    font-weight: lighter;
+}
+
+
+    .reviewList text {
+        font-size: medium
+    }
+
+input[type="checkbox"][readonly] {
+    pointer-events: none;
+}

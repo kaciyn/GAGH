@@ -6,7 +6,7 @@
     {% for barbershop in barbershops %}
     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-            <h4 class="reviewList title">{{barbershop['name']}}</h4>
+            <h4 class="reviewList">{{barbershop['name']}}</h4>
             <h5 class="reviewList text">
                 Address: {{barbershop['address']}}
             </h5>
@@ -14,7 +14,7 @@
         </div>
         <div style="text-align:right">
             <p class="reviewList text">
-                Known Friendly: <input type="checkbox" value="{{barbershop['known_friendly']}}" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="known_friendly" readonly>
+                Known Friendly: <input type="checkbox" style="pointer-events: none" value="{{barbershop['known_friendly']}}" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="known_friendly" readonly>
             <p class="reviewList text">Overall Rating: {{barbershop['rating_average']}}</p>
             <p class="reviewList text">Haircut Rating: {{barbershop['haircut_rating_average']}}</p>
             <p class="reviewList text">Anxiety Rating: {{barbershop['anxiety_rating_average']}}</p>
