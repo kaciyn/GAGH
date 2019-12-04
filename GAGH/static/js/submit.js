@@ -1,11 +1,10 @@
-﻿$(".selector").datepicker()
-$(".selector").datepicker("setDate", new Date());
-
-$(function () {
+﻿$(function () {
     $('.datepicker').datepicker({
-        format: 'mm-dd-yyyy',
+        format: 'yyyy-mm-dd',
         endDate: '+0d',
-        autoclose: true
+        autoclose: true,
+        clearBtn=true,
+
     });
 });
 
@@ -20,5 +19,5 @@ $(document).ready(function () {
         $document.getElementsByName('map')[0].value = event.data.split(";")[1];
         $document.getElementsByName('map')[0] = event.data.split(";")[2];
     });
-}
-});
+})
+
