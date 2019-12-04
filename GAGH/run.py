@@ -76,9 +76,11 @@ def submit_review():
             #if the barbershop is new
             if query_db("SELECT placeID FROM User WHERE placeID = ?",[barbershop_id],one=True) is None:
                 db.cursor().execute('INSERT INTO Barbershop (placeID,name,address) VALUES (?,?,?)',(barbershop_id,barbershop_name,barbershop_address))
+                app.logger.info('New barbershop '+barbershop_name+' added to db')
+
 
             db.commit()
-            app.logger.info('Successfully committed review to db')
+            app.logger.info('Successfully committed review for '+barbershop_name+' to db')
         except sql.Error as error:
             db.rollback()
             app.logger.error("Error in insert operation: "+str(error))     
@@ -222,7 +224,7 @@ def logout():
 def barbershops():
     #selects barbershop infos 
    barbershops=query_db(" SELECT b.placeID, b.name, b.address, b.known_friendly, AVG(r.haircut_rating) AS haircut_rating_average, AVG(r.anxiety_rating) AS anxiety_rating_average, AVG(r.friendliness_rating) AS friendliness_rating_average, SUM(r.unsafe) AS unsafe_sum, SUM(r.gender_remarks) AS gender_remarks_sum, SUM(r.gender_charged) AS gender_charged_sum, COUNT(r) AS review_count FROM Barbershop b INNER JOIN Review r ON r.barbershop_id = b.placeID GROUP BY b.barbershop_id ORDER BY rating_average DESC")
-   
+
     return render_template('barbershops.html',barbershops)
 
 @app.route('/reviews/')
