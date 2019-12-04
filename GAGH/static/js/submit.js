@@ -22,7 +22,7 @@ $(document).ready(function () {
     }
 })
 
-$(document).ready(function () {
+$(window).load(function () {
 
     //receives currently shown gmaps place & parses into place info
     window.addEventListener("message", receiveMessage, false);
