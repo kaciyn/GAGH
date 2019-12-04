@@ -125,7 +125,7 @@ def newuser():
                 db.commit()
                 app.logger.info('Successfully added user '+email+' to db')
 
-               return user_login(email,password)
+                return user_login(email,password)
 
             except sql.Error as error:
                 db.rollback()
