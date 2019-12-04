@@ -74,7 +74,7 @@ def submit_review():
             db.cursor().execute('INSERT INTO Review (reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,gender_remarks,gender_charged,unsafe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',(reviewer_id,barbershop_id,date_visited,date_added,title,review_text,haircut_rating,anxiety_rating,friendliness_rating,pricerange,gender_remarks,gender_charged,unsafe))
 
             #if the barbershop is new
-            if query_db("SELECT placeID FROM User WHERE placeID = ?",[barbershop_id],one=True) is None:
+            if query_db("SELECT placeID FROM Barbershop WHERE placeID = ?",[barbershop_id],one=True) is None:
                 db.cursor().execute('INSERT INTO Barbershop (placeID,name,address) VALUES (?,?,?)',(barbershop_id,barbershop_name,barbershop_address))
                 app.logger.info('New barbershop '+barbershop_name+' added to db')
 
@@ -124,7 +124,7 @@ def newuser():
                 db.commit()
                 app.logger.info('Successfully added user '+email+' to db')
 
-                user_login(email,password)
+               return user_login(email,password)
 
             except sql.Error as error:
                 db.rollback()
@@ -142,8 +142,8 @@ def newusersuccess():
 def get_user(email):
     try:
         result=query_db("SELECT email,hash_password FROM User WHERE email = ?",[email],one=True)
-        app.logger.info('Successfully retrieved user '+result['email'])
-        app.logger.info('Result length: '+result.len())
+        #app.logger.info('Successfully retrieved user '+result['email'])
+        #app.logger.info('Result length: '+result.len())
     
     except sql.Error as error:
         app.logger.error('Error retrieving user/user '+email+' not found: '+str(error))
@@ -155,13 +155,13 @@ def login():
     if request.method == 'POST':
         email = request.form['email'].lower().strip()
         password = request.form['password'].strip()
-        app.logger.info("Login requested for: "+email)
+        #app.logger.info("Login requested for: "+email)
         
         return user_login(email,password)
   
 
 def user_login(email,password):         
-    app.logger.info('Email passed to user login: '+email)
+    #app.logger.info('Email passed to user login: '+email)
     if check_auth(email,password):
         session['logged_in'] = True
         session['user']=email
@@ -180,7 +180,7 @@ def check_auth(email, password):
         app.logger.error(message)
         return False
     elif (result['hash_password'] == bcrypt.hashpw(password.encode('utf-8'), result['hash_password'])):
-        app.logger.info('Correct password for user '+email)
+        #app.logger.info('Correct password for user '+email)
         return True
     else:
         flash('Wrong password entered')
