@@ -3,9 +3,8 @@
         format: 'yyyy-mm-dd',
         endDate: '+0d',
         autoclose: true,
-        clearBtn:true,
-	todayBtn:true,
-	todayHighlight:true
+        clearBtn: true,
+        todayHighlight: true
 
     });
 });

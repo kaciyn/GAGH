@@ -139,7 +139,7 @@
                 zoomControl: true,
                 scaleControl: true,
                 fullscreenControl: true,
-                styles:[
+                styles: [
                     {
                         "featureType": "administrative",
                         "elementType": "labels.text.fill",
@@ -292,7 +292,6 @@
                     }
                 ]
             });
-        window.parent.postMessage("please");
 
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
@@ -309,12 +308,12 @@
             map: map
         });
         marker.addListener('click',
-            function() {
+            function () {
                 infowindow.open(map, marker);
             });
 
         autocomplete.addListener('place_changed',
-            function() {
+            function () {
                 infowindow.close();
                 var place = autocomplete.getPlace();
                 if (!place.geometry) {
