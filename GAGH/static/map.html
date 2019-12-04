@@ -314,6 +314,7 @@
 
         autocomplete.addListener('place_changed',
             function () {
+                console.log('Location changed');
                 infowindow.close();
                 var place = autocomplete.getPlace();
                 if (!place.geometry) {
