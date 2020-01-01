@@ -1,32 +1,50 @@
-﻿{%extends 'base.html'%}
-{%block content%}
+﻿{% extends 'base.html' %}
+{% block content %}
 
-<div class="list-group">
+    <div class>
 
-    {% for barbershop in barbershops %}
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h4 class="reviewList">{{barbershop['name']}}</h4>
-            <h5 class="reviewList text">
-                Address: {{barbershop['address']}}
-            </h5>
-            <small class="reviewList text">{{barbershop['review_count']}} review(s)</small>
-        </div>
-        <div style="text-align:right">
-            <p class="reviewList text">
-                Known Friendly: <input type="checkbox" style="pointer-events: none" value="{{barbershop['known_friendly']}}" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="known_friendly" readonly>
-                <!--<p class="reviewList text">Overall Rating: {{barbershop['rating_average']}}</p>-->
-            <p class="reviewList text">Haircut Rating: {{barbershop['haircut_rating_average']}}</p>
-            <p class="reviewList text">Anxiety Rating: {{barbershop['anxiety_rating_average']}}</p>
-            <p class="reviewList text">Friendliness Rating: {{barbershop['friendliness_rating_average']}}</p>
-            <p class="reviewList text" style="color:red">Flagged as unsafe: {{barbershop['unsafe_average']}}%</p>
-            <p class="reviewList text">Gender remarked upon: {{barbershop['gender_remarks_average']}}%</p>
-            <p class="reviewList text">Charged more on basis of gender presentation: {{barbershop['gender_charged_average']}}%</p>
+    </div>
 
-        </div>
-    </a>
+    <div class="list-group">
 
-    {% endfor %}
-</div>
+        {% for barbershop in barbershops %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4 class="reviewList">{{ barbershop['name'] }}</h4>
+                    <h5 class="reviewList text">
+                        Address: {{ barbershop['address'] }}
+                    </h5>
+                    <small class="reviewList text">{{ barbershop['review_count'] }} review(s)</small>
+                </div>
+                <div style="text-align:right">
+                    <p class="reviewList text">
+                        Known Friendly: <input type="checkbox" style="pointer-events: none"
+                                               value="{{ barbershop['known_friendly'] }}" checked data-toggle="toggle"
+                                               data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger"
+                                               name="known_friendly" readonly>
+                        <!--<p class="reviewList text">Overall Rating: {{barbershop['rating_average']}}</p>-->
+                    <p class="reviewList text">Haircut Rating: {{ barbershop['haircut_rating_average'] }}</p>
+                    <p class="reviewList text">Anxiety Rating: {{ barbershop['anxiety_rating_average'] }}</p>
+                    <p class="reviewList text">Friendliness Rating: {{ barbershop['friendliness_rating_average'] }}</p>
 
-    {%endblock%}}
+                    {#                                {% if barbershop['unsafe_average'] <= 0.33 %}#}
+
+                    {% if barbershop['unsafe_average'] == None or barbershop['unsafe_average'] <= 0.33 %}
+                        <p class="reviewList text">Safe (flagged as unsafe): {{ barbershop['unsafe_average'] }}%</p>
+                    {% else %}
+                        <p class="reviewList text" style="color:red">Unsafe (flagged as
+                            unsafe): {{ barbershop['unsafe_average'] }}%</p>
+                    {% endif %}
+
+
+                    <p class="reviewList text">Gender remarked upon: {{ barbershop['gender_remarks_average'] }}%</p>
+                    <p class="reviewList text">Charged more on basis of gender
+                        presentation: {{ barbershop['gender_charged_average'] }}%</p>
+
+                </div>
+            </a>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}}
