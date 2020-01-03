@@ -1,0 +1,62 @@
+﻿{%extends 'base.html' %}
+{% block content %}
+<h2 style="        text-align: center;
+        font-weight: lighter">
+    Want to go to a barber? Anxious about it because you're not a cis man? 
+</h2>
+<h3 style="        text-align: center;
+        font-weight: lighter">
+    Find a safe place to get a haircut!
+</h3>
+
+<div class="container">
+    <div class="linkstrip">
+        <div class="row vertical-align" style="        display: inline-flex">
+            <div class="col-xs-4">
+                <div class="linkContainer">
+                    <a href="/submit/" title="" class="linkA">
+
+                        <img class="linkImg" style="filter: sepia(1) saturate(3.5) hue-rotate(175deg) brightness(66%) contrast(300%)" src=" {{ url_for('static',filename='marble.jpg') }} " alt="marble texture background for nav">
+                        <div class="linkText">Submit A Review</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="linkContainer">
+                    <a href="/barbershops/" title="" class="linkA">
+                        <img class="linkImg" style="filter: sepia(1) saturate(1.8) hue-rotate(280deg) brightness(66%) contrast(300%)" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Barbershops</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="linkContainer">
+                    <a href="/reviews/" title="" class="linkA">
+                        <img class="linkImg" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Reviews</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="linkContainer">
+                    <a href="/faq/" title="" class="linkA">
+                        <img class="linkImg" style="filter: sepia(1) saturate(1.8) hue-rotate(280deg) brightness(66%) contrast(300%)" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">Terminology &amp; Advice</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="linkContainer">
+
+                    <a href="/about/" title="" class="linkA">
+                        <img class="linkImg" style="filter: sepia(1) saturate(3.5) hue-rotate(175deg) brightness(66%) contrast(300%)" src="{{ url_for('static',filename='marble.jpg') }}" alt="marble texture background for nav">
+                        <div class="linkText">About</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+    {%endblock%}}

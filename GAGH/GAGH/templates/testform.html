@@ -1,0 +1,145 @@
+﻿{%extends 'base.html' %}
+{%block content%}
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="h3" name="content-heading">Add a Review</h3>
+
+
+    </div>
+    <div class="col-md-6">
+        <div class="container">
+            <form action="/testresult/" method="POST" name="form">
+                <div class="form-group">
+                    <h4 class="h4" name="content-heading">
+                        <span style="font-family:open sans,sans-serif;">Barbershop ID </span>
+                    </h4>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <input class="form-control" type="text" placeholder="barbershop id..." name="barbershop_id">
+                        </div>
+                    </div>
+
+                    <h4 class="h4" name="content-heading">
+                        <span style="font-family:open sans,sans-serif;">User </span>
+                    </h4>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <input class="form-control" type="text" placeholder="user email..." name="reviewer_id">
+                        </div>
+                    </div>
+
+                    <h4 class="h4" name="content-heading">
+                        <span style="font-family:open sans,sans-serif;">When did you go? </span>
+                    </h4>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <input class="form-control" type="date" name="date_visited">
+                        </div>
+                    </div>
+
+                    <h4 class="h4" name="content-heading">
+                        <span style="font-family:open sans,sans-serif;">How was it? </span>
+                    </h4>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <input class="form-control" type="text" placeholder="Add a review title..." name="title">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <textarea class="form-control" type="text" rows="5" placeholder="Write a review..." name="review"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="inputType" class="col-sm-4 control-label">Haircut Quality</label>
+
+                    <fieldset class="rating" name="haircut-quality">
+                        <input type="radio" id="rating-5" name="haircut_quality" value="5" /><label class="full" for="star5" title="This is the Best I've Ever Looked"></label>
+                        <input type="radio" id="rating-4" name="haircut_quality" value="4" /><label class="full" for="star4" title="I look good!"></label>
+                        <input type="radio" id="rating-3" name="haircut_quality" value="3" /><label class="full" for="star3" title="Pretty okay"></label>
+                        <input type="radio" id="rating-2" name="haircut_quality" value="2" /><label class="full" for="star2" title="Meh"></label>
+                        <input type="radio" id="rating-1" name="haircut_quality" value="1" /><label class="full" for="star1" title="I can't look in a mirror"></label>
+                    </fieldset>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputType" class="col-sm-4 control-label">Anxiety Rating</label>
+
+                    <fieldset class="rating" name="anxiety">
+                        <input type="radio" id="rating-5" name="anxiety" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
+                        <input type="radio" id="rating-4" name="anxiety" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
+                        <input type="radio" id="rating-3" name="anxiety" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
+                        <input type="radio" id="rating-2" name="anxiety" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
+                        <input type="radio" id="rating-1" name="anxiety" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
+                    </fieldset>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputType" class="col-sm-4 control-label">Friendliness</label>
+
+                    <fieldset class="rating" name="friendliness">
+                        <input type="radio" id="rating-5" name="friendliness" value="5" /><label class="full" for="rating-5" title="I almost died"></label>
+                        <input type="radio" id="rating-4" name="friendliness" value="4" /><label class="full" for="rating-4" title="Pretty Bad"></label>
+                        <input type="radio" id="rating-3" name="friendliness" value="3" /><label class="full" for="rating-3" title="It was fine, actually"></label>
+                        <input type="radio" id="rating-2" name="friendliness" value="2" /><label class="full" for="rating-2" title="Nothing too terrible"></label>
+                        <input type="radio" id="rating-1" name="friendliness" value="1" /><label class="full" for="rating-1" title="Not even a little anxiety-inducing!"></label>
+                    </fieldset>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputType" class="col-sm-4 control-label">Price</label>
+
+                    <fieldset class="rating" name="price">
+                        <input type="radio" id="rating-3" name="price" value="3" /><label class="full" for="rating-3" title="£30<"></label>
+                        <input type="radio" id="rating-2" name="price" value="2" /><label class="full" for="rating-2" title="£15-£29"></label>
+                        <input type="radio" id="rating-1" name="price" value="1" /><label class="full" for="rating-1" title="£15>"></label>
+                    </fieldset>
+
+                </div>
+
+
+                <div class="form-group">
+                    <!--<h4 class="h4" name="content-heading">
+                        <span style="font-family:open sans,sans-serif;">Who was your barber&#63 (Optional)</span>
+                    </h4>
+                    <div class="form-group row">
+                        <div class="col-10">
+                            <input class="form-control" type="text" placeholder="Add barber's name..." name="barber-name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-6 control-label">Would you recommend them&#63 </label>
+                        <input type="checkbox" value="1" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="barber-recommend">
+                    </div>-->
+
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-6 control-label">Were there any Gender Comments™ </label>
+                        <input type="checkbox" value="1" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="gender_remarks">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-6 control-label">Did they charge you more than a standard men's cut?™ </label>
+                        <input type="checkbox" value="1" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="gender_charged">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputType" class="col-sm-6 control-label">Unsafe, avoid at all costs </label>
+                        <input type="checkbox" value="1" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger" name="unsafe">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}}

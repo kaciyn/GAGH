@@ -1,0 +1,11 @@
+﻿{%extends 'base.html' %}
+{%block content%}
+<h1>User Information</h1>
+<div class="card" style="max-width:25%; text-align:center">
+    <h2>{{user['name']}}</h2>
+    <p label="Email" class="email">Email: {{user['email']}}</p>
+    <p>Location: {{user['location']}}</p>
+
+</div>
+
+{%endblock%}}
