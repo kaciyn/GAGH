@@ -5,8 +5,8 @@ from flask import  render_template, request, url_for, session, redirect, flash
 
 # SUBMIT
 from GAGH import app
-from GAGH.GAGH.data.data import get_db, query_db
-from GAGH.GAGH.user.user_auth import requires_login
+from GAGH import get_db, query_db
+from GAGH import requires_login
 
 
 @app.route("/submit/")
@@ -67,3 +67,13 @@ def submit_review():
             db.rollback()
             app.logger.error("Error in insert operation: " + str(error))
             return redirect(url_for('.submit_error'))
+
+    @app.route('/submit/review-submitted/')
+    @requires_login
+    def review_submitted():
+        return render_template('review-submitted.html')
+
+    @app.route('/submit/error/')
+    @requires_login
+    def submit_error():
+        return render_template('submit-error.html')

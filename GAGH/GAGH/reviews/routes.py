@@ -1,7 +1,7 @@
 from flask import render_template
 
 from GAGH import app
-from GAGH.GAGH.data.data import query_db
+from GAGH import query_db
 
 
 @app.route('/barbershops/')
