@@ -1,21 +1,23 @@
-import  sqlite3 as sql, time
+import sqlite3 as sql
+import time
 
-from flask import  render_template, request, url_for, session, redirect, flash
+from flask import Blueprint
+
+from GAGH import app
+from GAGH.data.data import get_db, query_db
+from GAGH.user.user_auth import requires_login
+from flask import render_template, request, url_for, session, redirect, flash
 # you need to uh actually. flash the messages
 
-# SUBMIT
-from GAGH import app
-from GAGH import get_db, query_db
-from GAGH import requires_login
+bp = Blueprint('submit', __name__)
 
-
-@app.route("/submit/")
+@bp.route("/submit/")
 @requires_login
 def new_review():
-    return render_template('submit.html')
+    return render_template('submit/submit.html')
 
 
-@app.route('/submit/submit-review/', methods=['POST', 'GET'])
+@bp.route('/submit/submit-review/', methods=['POST', 'GET'])
 @requires_login
 def submit_review():
     db = get_db()
@@ -63,17 +65,18 @@ def submit_review():
             app.logger.info('Successfully committed review for ' + barbershop_name + ' to db')
             flash('Review submitted!')
             return redirect(url_for('.review_submitted'))
+
         except sql.Error as error:
             db.rollback()
             app.logger.error("Error in insert operation: " + str(error))
             return redirect(url_for('.submit_error'))
 
-    @app.route('/submit/review-submitted/')
-    @requires_login
-    def review_submitted():
-        return render_template('review-submitted.html')
+@bp.route('/submit/review-submitted/')
+@requires_login
+def review_submitted():
+    return render_template('submit/review-submitted.html')
 
-    @app.route('/submit/error/')
-    @requires_login
-    def submit_error():
-        return render_template('submit-error.html')
+@bp.route('/submit/error/')
+@requires_login
+def submit_error():
+    return render_template('submit/submit-error.html')

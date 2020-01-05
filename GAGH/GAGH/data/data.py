@@ -1,10 +1,11 @@
 import sqlite3 as sql
 
 from flask import g
-
+from flask import Blueprint
+from GAGH import app
 # from https://flask.palletsprojects.com/en/0.12.x/patterns/sqlite3/#easy-querying
-from GAGH import db_location, app
 
+bp = Blueprint('data', __name__)
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
@@ -16,7 +17,7 @@ def query_db(query, args=(), one=False):
 def get_db():
     db = getattr(g, 'db', None)
     if db is None:
-        db = sql.connect(db_location)
+        db = sql.connect(app.config['db_location'])
         g.db = db
         db.row_factory = sql.Row
 
