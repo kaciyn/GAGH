@@ -27,10 +27,9 @@
                     <p class="reviewList text">Anxiety Rating: {{ barbershop['anxiety_rating_average'] }}</p>
                     <p class="reviewList text">Friendliness Rating: {{ barbershop['friendliness_rating_average'] }}</p>
 
-                    {#                                {% if barbershop['unsafe_average'] <= 0.33 %}#}
 
                     {% if barbershop['unsafe_average'] == None or barbershop['unsafe_average'] <= 0.33 %}
-                        <p class="reviewList text">Safe (flagged as unsafe): {{ barbershop['unsafe_average'] }}%</p>
+                        <p class="reviewList text" style="color:green">Safe (flagged as unsafe): {{ barbershop['unsafe_average'] }}%</p>
                     {% else %}
                         <p class="reviewList text" style="color:red">Unsafe (flagged as
                             unsafe): {{ barbershop['unsafe_average'] }}%</p>

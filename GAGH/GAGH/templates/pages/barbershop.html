@@ -1,0 +1,72 @@
+{%extends 'base.html' %}
+{% block content %}
+<div style="text-align:center">
+   <h1>{{ barbershop['name'] }}</h1>
+<div class="row">
+    <div class="col-sm">
+                        <!--<p class="reviewList text">Overall Rating: {{barbershop['rating_average']}}</p>-->
+ <p class="reviewList text">Haircut Rating: {{ barbershop['haircut_rating_average'] }}</p>
+                    <p class="reviewList text">Anxiety Rating: {{ barbershop['anxiety_rating_average'] }}</p>
+                    <p class="reviewList text">Friendliness Rating: {{ barbershop['friendliness_rating_average'] }}</p>
+
+</div>
+<div class="col-sm">
+     {% if barbershop['unsafe_average'] == None or barbershop['unsafe_average'] <= 0.33 %}
+                        <p class="reviewList text">Safe (flagged as unsafe): {{ barbershop['unsafe_average'] }}%</p>
+                    {% else %}
+                        <p class="reviewList text" style="color:red">Unsafe (flagged as
+                            unsafe): {{ barbershop['unsafe_average'] }}%</p>
+                    {% endif %}
+
+
+                    <p class="reviewList text">Gender remarked upon: {{ barbershop['gender_remarks_average'] }}%</p>
+                    <p class="reviewList text">Charged more on basis of gender
+                        presentation: {{ barbershop['gender_charged_average'] }}%</p>
+</div>
+</div>
+<div class="row">
+    <h1>Review goes here</h1>
+</div>
+
+ <div class="list-group">
+
+        {% for review in reviews %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4 class="reviewList">{{ review['name'] }}</h4>
+                    <h5 class="reviewList text">
+                        Address: {{ review['address'] }}
+                    </h5>
+                    <small class="reviewList text">{{ review['review_count'] }} review(s)</small>
+                </div>
+                <div style="text-align:right">
+                    <p class="reviewList text">
+                        Known Friendly: <input type="checkbox" style="pointer-events: none"
+                                               value="{{ review['known_friendly'] }}" checked data-toggle="toggle"
+                                               data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger"
+                                               name="known_friendly" readonly>
+                        <!--<p class="reviewList text">Overall Rating: {{review['rating_average']}}</p>-->
+                    <p class="reviewList text">Haircut Rating: {{ review['haircut_rating_average'] }}</p>
+                    <p class="reviewList text">Anxiety Rating: {{ review['anxiety_rating_average'] }}</p>
+                    <p class="reviewList text">Friendliness Rating: {{ review['friendliness_rating_average'] }}</p>
+
+
+                    {% if review['unsafe_average'] == None or review['unsafe_average'] <= 0.33 %}
+                        <p class="reviewList text" style="color:green">Safe (flagged as unsafe): {{ review['unsafe_average'] }}%</p>
+                    {% else %}
+                        <p class="reviewList text" style="color:red">Unsafe (flagged as
+                            unsafe): {{ review['unsafe_average'] }}%</p>
+                    {% endif %}
+
+
+                    <p class="reviewList text">Gender remarked upon: {{ review['gender_remarks_average'] }}%</p>
+                    <p class="reviewList text">Charged more on basis of gender
+                        presentation: {{ review['gender_charged_average'] }}%</p>
+
+                </div>
+            </a>
+
+        {% endfor %}
+    </div>
+</div>
+{%endblock%}}
